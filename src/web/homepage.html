@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<link rel="stylesheet" href="homepage.css">
+<link rel="stylesheet" type="text/css" href="v6.3.1-dist/ol.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div>
+	<img src="logo.png" height="10%" width="10%">
+</div>
+</head>
+<body>
+
+
+<div class="filtre" style="overflow: scroll;">
+	<input type="text" placeholder="Ville, Departement ...">
+	<p id="titles" style="margin-left: 5%">Prix: <span id="demo"></span>€</p>
+	<div class="slidecontainer">
+  		<input type="range" min="50000" max="1000000" value="250000" class="slider" id="myRange">
+	</div>
+	<p id="titles" style="margin-left: 5% ">Superficie(m²): <span id="demo2"></span></p>
+	<div class="slidecontainer">
+  			<input type="range" min="1" max="1000" value="50" class="slider" id="myRange2">
+	</div>
+		<p id="titles" style="margin-left: 5%">Etages: <span id="demo3"></span></p>
+	<div class="slidecontainer">
+  			<input type="range" min="0" max="10" value="0" class="slider" id="myRange3">
+	</div>
+	<p id="titles" style="margin-left: 5%">Transports(km): <span id="demo4"></span></p>
+	<input type="checkbox" id="bus" name="bus" value="Bus" style="margin-left: -30%;">
+  	<label for="fibre" style="margin-left: -35%;"> Bus</label><br>
+  	<input type="checkbox" id="rer" name="rer" value="RER" style="margin-left: -30%;">
+  	<label for="g" style="margin-left: -35%;"> RER</label><br>
+	<div class="slidecontainer">
+  			<input type="range" min="-1" max="20" value="-1" class="slider" id="myRange4">
+	</div>
+	<p id="titles" style="margin-left: 5%"">Internet</p>
+	<div id="internet">
+	<input type="checkbox" id="fibre" name="fibre" value="Fibre" style="margin-left: -30%;">
+  	<label for="fibre" style="margin-left: -35%;"> Fibre</label><br>
+  	<input type="checkbox" id="g" name="g" value="4G" style="margin-left: -30%;">
+  	<label for="g" style="margin-left: -35%;"> 4G</label><br>
+  	<p id="titles" style="margin-left: 5%"">Divers</p>
+  	<div>
+  	<input type="checkbox" id="loisirs" name="loisirs" value="loisirs" style="margin-left: -30%;">
+  	<label for="loisirs" style="margin-left: -35%;"> Loisirs</label><br>
+  	<input type="checkbox" id="commerces" name="commerces" value="commerces" style="margin-left: -30%;">
+  	<label for="commerces" style="margin-left: -35%;">Commerces</label><br>
+  	</div>
+  	<button id="apply">Appliquer</button>
+  	<button id="rei" style="position: relative;">Réinitialiser</button>
+</div>
+
+<div class="cours">
+	<p>test</p>
+</div>
+
+<div class="options">
+<input type="radio" id="maison" name="maison" value="maison">
+<label for="maison" >Maisons</label><br>
+<input type="radio" id="male" name="gender" value="male">
+<label for="male" >Appartement</label><br>
+<input type="radio" id="male" name="gender" value="male">
+<label for="male" >Trimestrielle</label><br>
+<input type="radio" id="male" name="gender" value="male">
+<label for="male" >1 an</label><br>
+<input type="radio" id="male" name="gender" value="male">
+<label for="male" >5 ans</label><br>
+
+
+</div>
+
+<div id="js-map" class="map" style="height: 50% width: 50px"></div>
+<script type="text/javascript" src="carte.js"></script>
+<script type="text/javascript" src="v6.3.1-dist/ol.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
+<script>
+var slider = document.getElementById("myRange");
+var slider2 = document.getElementById("myRange2")
+var slider3 = document.getElementById("myRange3")
+var slider4 = document.getElementById("myRange4")
+var output = document.getElementById("demo");
+var output2 = document.getElementById("demo2");
+var output3 = document.getElementById("demo3");
+var output4 = document.getElementById("demo4");
+output.innerHTML = slider.value;
+output2.innerHTML = slider2.value;
+output3.innerHTML = slider3.value;
+output4.innerHTML = slider3.value;
+
+slider.oninput = function() {
+  output.innerHTML = this.value;
+}
+slider2.oninput = function(){
+
+  output2.innerHTML = this.value;
+}
+slider3.oninput = function(){
+
+  output3.innerHTML = this.value;
+}
+slider4.oninput = function(){
+
+  output4.innerHTML = this.value;
+}
+</script>
+
+</body>
+</html>
+
