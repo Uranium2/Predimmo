@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import requests
 from csv import writer
 import os
+from datetime import datetime
+
 # !pip install fake-useragent
 
 url_ref = "https://www.leboncoin.fr"
@@ -20,7 +22,7 @@ def append_list_as_row(file_path, l):
         csv_writer = writer(write_obj)
         csv_writer.writerow(l)
 
-def scrap_page(url):
+def scrap_page(url, date):
     response = requests.get(url, headers=headers)
     if (response.status_code != 200):
         return
@@ -37,6 +39,7 @@ def scrap_page(url):
     for elm in list_immo:
         # store all info inside values_col and append to file
         values_col = []
+        values_col.append(date)
 
         build_url = url_ref + elm
 
@@ -87,10 +90,10 @@ def scrap_page(url):
 
 
         
-
+date = datetime.now().strftime("%d/%m/%Y")
 size = 100
 for i in range(2, size):
-    scrap_page(url_page.format(i))
+    scrap_page(url_page.format(i), date)
     print(str(i) + " / " + str(size))
 
 
