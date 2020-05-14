@@ -4,13 +4,13 @@
 <html>
 <head>
 <title>Page Title</title>
-<link rel="stylesheet" type="text/css" href="{%static 'index.css'%}">
-<link rel="stylesheet" type="text/css" href="v6.3.1-dist/ol.css">
+<link rel="stylesheet" type="text/css" href="{% static 'index.css'%}" alt="My image">
+<!--<link rel="stylesheet" type="text/css" href="v6.3.1-dist/ol.css"> -->
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <div>
-	<img src="{% static 'logo.png' %}" height="10%" width="10%">
+	<img src="{% static 'logo.png'%}" height="10%" width="10%">
 </div>
 </head>
 <body>
@@ -80,7 +80,7 @@
 </div>
 
 <div id="js-map" class="map" style="height: 50% width: 50px"></div>
-<script type="text/javascript" src="carte.js"></script>
+
 <script>
 var slider = document.getElementById("myRange");
 var slider2 = document.getElementById("myRange2")
