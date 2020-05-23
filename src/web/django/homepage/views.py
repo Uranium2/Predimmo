@@ -8,10 +8,10 @@ def index(request):
     if request.method == 'POST':
         form = SearchForm(request.POST)
         if form.is_valid():
-            ville = form.cleaned_data['departement']
-            res = my_query()
+            departement = form.cleaned_data['departement']
+            #res = my_query()
             # traiter res, et render ?
-            print(res)
+            #print(res)
     else:
         # Valeurs par défaut
         form = SearchForm()

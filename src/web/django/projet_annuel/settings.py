@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'homepage',
     'crispy_forms',
+    'leaflet',
 
 ]
 

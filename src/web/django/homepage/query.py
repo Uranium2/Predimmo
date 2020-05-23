@@ -23,6 +23,6 @@ def my_query():
         connection_class=RequestsHttpConnection
     )
 
-    res = es.search(index="logements", body={"query": {"match_all": {}}})
+    res = es.search(index="logements", body={"query":{"match_all": {}}})
 
     return res
