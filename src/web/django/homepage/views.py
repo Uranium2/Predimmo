@@ -9,6 +9,8 @@ def index(request):
         form = SearchForm(request.POST)
         if form.is_valid():
             departement = form.cleaned_data['departement']
+            price = form.cleaned_data['price']
+
             #res = my_query()
             # traiter res, et render ?
             #print(res)
@@ -16,4 +18,6 @@ def index(request):
         # Valeurs par défaut
         form = SearchForm()
         form.fields['departement'].initial = 75001
+        form.fields['price'].initial = 50000
+
     return render(request, 'index.html', {'form': form})

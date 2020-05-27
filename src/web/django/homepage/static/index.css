@@ -14,3 +14,10 @@
       margin-top: -5%;
       position: fixed;
     }
+
+     .bodyclass {
+        height: 1%;
+        width: 1%;
+        margin-top: 7.5%;
+        margin-left: 7.5%;
+    }
