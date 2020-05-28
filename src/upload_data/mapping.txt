@@ -1,0 +1,22 @@
+PUT /logements
+{
+  "mappings" : {
+    "properties": {
+      "code_postal": {
+        "type": "integer"
+      },
+      "date_mutation": {
+        "type": "text"
+      },
+      "nombre_pieces_principales": {
+        "type": "integer"
+      },
+      "type_local": {
+        "type": "text"
+      },
+      "valeur_fonciere": {
+        "type": "integer"
+      }
+    }
+  }
+}
