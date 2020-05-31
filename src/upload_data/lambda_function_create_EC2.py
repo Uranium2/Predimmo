@@ -21,6 +21,14 @@ instance = ec2.Instance(id=(res[0].id))
 instance.wait_until_running()
 
 
+# Se connecter à l'instance EC2 en SSH. Peut etre rajouter la clé SSH (chemin de la clé) dans create_instances (fichier.pem)
+
+# Reussir a trouver un moyen de lancer du code via SSH
+    # Dans le code qui va etre executé en SSH, il va DL le fichier python ou script (Installation Python3)
+
+
+# ES => EC2 (python => Model/training) => ES
+
 # To terminate : run in EC2
 # ec2.instances.filter(InstanceIds = [res[0].id]).terminate()
     
