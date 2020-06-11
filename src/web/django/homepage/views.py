@@ -34,7 +34,7 @@ def index(request):
         form.fields['departement'].initial = 75001
         form.fields['price'].initial = 50000
     
-    file_path = os.path.join(module_dir, 'data', 'arron.geojson')
+    file_path = os.path.join(module_dir, 'data', 'quartier_paris.geojson')
     coords = []
     with open(file_path, mode='r') as fp:
         for line in fp:
@@ -42,6 +42,6 @@ def index(request):
     # print(coords[0])
     # coords = coords[0]
     styles = []
-    for i in range(20):
+    for i in range(80):
         styles.append(template_color("orange", "140, 130, 0"))
     return render(request, 'index.html', {'form': form, 'coords': coords, 'styles' : styles})
