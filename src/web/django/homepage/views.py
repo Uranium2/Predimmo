@@ -43,5 +43,13 @@ def index(request):
     # coords = coords[0]
     styles = []
     for i in range(80):
-        styles.append(template_color("orange", "140, 130, 0"))
+        #change me according to results
+        if i % 2 == 0:
+            strike_color = "red"
+            rgba = "{}, {}, 0".format(255, 0)
+        else:
+            strike_color = "green"
+            rgba = "{}, {}, 0".format(0, 255)
+        styles.append(template_color(strike_color, rgba))
+        print(rgba)
     return render(request, 'index.html', {'form': form, 'coords': coords, 'styles' : styles})

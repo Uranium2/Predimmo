@@ -56,6 +56,6 @@ class ElasticSearchImporter(object):
             f.close()
 
 importer = ElasticSearchImporter()
-YOUR_ACCESS_KEY = "AKIAJWJKHI6WVWPQKSMA"
-YOUR_SECRET_KEY = "S6W4yaPSXU6bzLI5fU6jrUQILUgUPqYYhh9Bk/5e"
-importer.importToDb("idf.csv", "logements", YOUR_ACCESS_KEY, YOUR_SECRET_KEY, indexType="default")
+ACCESS_KEY = "AKIAIV76PKAW63PGPERA"
+SECRET_KEY = "ZT/tUkdiRQISeDEuwX0iImNZKGpSGuwwIfBr4iLR"
+importer.importToDb("idf.csv", "logements", ACCESS_KEY, SECRET_KEY, indexType="default")

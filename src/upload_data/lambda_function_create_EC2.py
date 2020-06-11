@@ -4,8 +4,8 @@ import boto3
 
 
 
-ACCESS_KEY = "AKIAJWJKHI6WVWPQKSMA"
-SECRET_KEY = "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"
+ACCESS_KEY = "AKIAIV76PKAW63PGPERA"
+SECRET_KEY = "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"
 ec2 = boto3.resource('ec2', aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY, region_name="eu-west-1")
 
 res = ec2.create_instances(
