@@ -41,10 +41,11 @@ git clone https://github.com/Uranium2/{}.git
 chmod -R ugo+rwx {}
 cd {}
 git pull
-echo -e "{}\n{}" > aws_keys
+echo -e "{}\n{}\n{}\n{}\n{}" > aws_keys
 pip install -r requirements.txt
 python3 stop_instance.py
-    """.format(tag, tag, tag, ACCESS_KEY, SECRET_KEY)
+    """.format(tag, tag, tag, ACCESS_KEY, SECRET_KEY, "predimodbinstance.cbiog1ld7y5x.eu-west-1.rds.amazonaws.com",
+    "admin", "N8XR3u#m9[5Mk6UK", "3306")
 
     res = ec2.create_instances(
         ImageId='ami-0ea3405d2d2522162',
