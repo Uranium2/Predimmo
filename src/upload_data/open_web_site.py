@@ -1,8 +1,7 @@
 import os
 import boto3
 import webbrowser
- 
-dir_path = os.path.dirname(os.path.realpath(__file__))
+
 project_name = 'Predimmo'
 
 ACCESS_KEY = "AKIAINQGD2PLBK42S4NQ"
