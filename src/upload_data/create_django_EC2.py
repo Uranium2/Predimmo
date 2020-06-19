@@ -36,8 +36,6 @@ sudo su
 yum update -y
 yum install python3 -y
 yum install git -y
-yum install httpd -y
-yum install mod_wsgi -y
 pip3 install --upgrade pip
 cd /home/ec2-user
 git clone https://FlorianBergeron:wPG4b.rh@github.com/Uranium2/{}.git
@@ -52,7 +50,13 @@ fi
 source .venv/bin/activate
 git pull
 echo -e "{}\n{}\n{}\n{}\n{}" > aws_keys
+curl ifconfig.me > my_ip
+curl -s http://169.254.169.254/latest/meta-data/public-hostname > dns
+IP=$(<my_ip)
+DNS=$(<dns)
+sed -i -e "s/\[\]/\['$IP','$DNS'\]/g" src/web/django/projet_annuel/settings.py
 pip3 install -r requirements.txt
+python3 src/web/django/manage.py runserver 0.0.0.0:8000
     """.format(tag, tag, tag, tag, ACCESS_KEY, SECRET_KEY, "predimodbinstance.cbiog1ld7y5x.eu-west-1.rds.amazonaws.com",
     "admin", "N8XR3u#m9[5Mk6UK", "3306")
 
