@@ -8,7 +8,7 @@ ACCESS_KEY = "AKIAINQGD2PLBK42S4NQ"
 SECRET_KEY = "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"
 ec2 = boto3.resource('ec2', aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY, region_name="eu-west-1")
 
-tags = ["django_deploy"]
+tags = ["update_cadastre", "scraping_predimmo", "model_predimmo"]
 instances = []
 
 for tag in tags:
