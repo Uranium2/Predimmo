@@ -48,6 +48,7 @@ else
     python3 -m venv .venv
 fi
 source .venv/bin/activate
+git stash
 git pull
 echo -e "{}\n{}\n{}\n{}\n{}" > aws_keys
 curl ifconfig.me > my_ip
