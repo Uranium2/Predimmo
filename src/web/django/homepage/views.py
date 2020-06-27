@@ -62,15 +62,15 @@ def annonce(request):
     if request.method == 'POST':
         form = AnnonceForm(request.POST)
         headers = {"Content-Type": "application/json"}
-        adresse = form.data[]
-        code_postal = form[]
+        #adresse = form.data[]
+        #code_postal = form[]
         #arrondir les coor
-        url = str(("http://api-adresse.data.gouv.fr/search/?q=" + str(adresse) + "&postcode=" + str(code_postal)))
+        #url = str(("http://api-adresse.data.gouv.fr/search/?q=" + str(adresse) + "&postcode=" + str(code_postal)))
         #print(url)
 
-        r = requests.get(url, headers=headers, data="")
-        content = r.text
-        print(content)
+        #r = requests.get(url, headers=headers, data="")
+        #content = r.text
+        #print(content)
 
         if form.is_valid():
             conn = pymysql.connect(
