@@ -3,9 +3,9 @@ from django.shortcuts import render
 from .forms import AnnonceForm
 from .forms import SearchForm
 import requests
+import json
 from .query import my_query
 import pymysql
-
 import os
 
 
@@ -62,15 +62,20 @@ def annonce(request):
     if request.method == 'POST':
         form = AnnonceForm(request.POST)
         headers = {"Content-Type": "application/json"}
-        #adresse = form.data[]
-        #code_postal = form[]
-        #arrondir les coor
-        #url = str(("http://api-adresse.data.gouv.fr/search/?q=" + str(adresse) + "&postcode=" + str(code_postal)))
-        #print(url)
+        adresse = form.data['adresse']
+        code_postal = form.data['code_postal']
+        url = str(("http://api-adresse.data.gouv.fr/search/?q=" + str(adresse) + "&postcode=" + str(code_postal)))
 
-        #r = requests.get(url, headers=headers, data="")
-        #content = r.text
-        #print(content)
+
+        r = requests.get(url, headers=headers, data="")
+        js = json.loads(r.text)
+        x = js['features'][0]['geometry']['coordinates']
+        longitude = x[0]
+        latitude = x[1]
+
+        content = r.text
+        # print(content)
+        print(x)
 
         if form.is_valid():
             conn = pymysql.connect(
@@ -85,11 +90,11 @@ def annonce(request):
                 with conn.cursor() as cursor:
                     # Create a new record
 
-                    sql = "INSERT INTO `data_django` (`valeur_fonciere`, `code_type_local`,`type_local`, `surface_reelle_bati`, `nombre_pieces_principales`,`surface_terrain`,`message`) VALUES (%s, %s,%s, %s,%s, %s,%s)"
+                    sql = "INSERT INTO `data_django` (`valeur_fonciere`, `code_type_local`,`type_local`, `surface_reelle_bati`, `nombre_pieces_principales`,`surface_terrain`,`longitude`,`latitude`,`message`) VALUES (%s, %s,%s, %s,%s, %s,%s,%s,%s)"
                     cursor.execute(sql, (
-                    form.data['valeur_fonciere'], form.data['code_type_local'], form.data['type_local'],
+                    form.data['valeur_fonciere'], form.data['code_postal'], form.data['type_local'],
                     form.data['surface_reelle_bati'],
-                    form.data['nombre_pieces_principales'], form.data['surface_terrain'], form.data['message']))
+                    form.data['nombre_pieces_principales'], form.data['surface_terrain'], form.data['message'], longitude, latitude))
                     conn.commit()
                     print("inséré")
             finally:
