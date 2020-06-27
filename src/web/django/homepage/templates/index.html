@@ -3,11 +3,9 @@
 {%load static%}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css"
     type="text/css">
-
   <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
 
   <meta charset="UTF-8">
@@ -26,6 +24,14 @@
 </head>
 
 <body id="bodyclass" class="bodyclass">
+<div id="annonces" style="margin-left: -100%;
+      margin-top: -50%;
+        background-color: red;
+        height: 400px;
+        width: 200px;"> ANNONCES</div>
+
+
+
   <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
   <div id="open_map" style="     height: 100%;
       width: 100%;
@@ -35,9 +41,8 @@
       top: 0;
       z-index: -10;"></div>
   <div id="map" class="map"></div>
-  <div id="box" class="box">
-    {% crispy form form.helper %}
-  </div>
+  <div id="box" class="box">{% crispy form form.helper %}</div>
+<!--<a id="poster_annonce" href="/index/annonce">Poster une annonce</a> -->
   <script>
     function generate_geojsonObject(coord) {
       var geojsonObject = {

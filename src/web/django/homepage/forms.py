@@ -32,3 +32,34 @@ class SearchForm(forms.Form):
             Submit('submit', 'Submit', css_class='btn-success')
 
         )
+
+class AnnonceForm(forms.Form):
+
+    valeur_fonciere = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Valeur Fonciere'}))
+    code_postal = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Code Postal'}))
+
+    type_local = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Type de bien'}))
+    surface_reelle_bati = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Surface du bien(m²)'}))
+    nombre_pieces_principales = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Nombre de pieces'}))
+    surface_terrain = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Surface du terrain (m²)'}))
+    message = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Description'}))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper = FormHelper
+        self.helper.form_method = 'post'
+
+        self.helper.layout = Layout(
+            'valeur_fonciere',
+            'code_type_local',
+            'type_local',
+            'surface_reelle_bati',
+            'nombre_pieces_principales',
+            'surface_terrain',
+            'message',
+
+
+            Submit('submit', 'Submit', css_class='btn-success')
+
+        )

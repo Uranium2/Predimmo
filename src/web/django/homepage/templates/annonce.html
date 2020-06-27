@@ -1,0 +1,22 @@
+{% load crispy_forms_tags %}
+{% load leaflet_tags %}
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+  <title>Annonces</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'annonce.css'%}">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+</head>
+
+<body id="bodyclass" class="bodyclass">
+  <div id="box" class="box">
+      <p>Poster une annonce</p>
+    {% crispy form form.helper %}
+  </div>
+</body>
+</html>
