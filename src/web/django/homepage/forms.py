@@ -37,7 +37,7 @@ class AnnonceForm(forms.Form):
 
     valeur_fonciere = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Valeur Fonciere'}))
     code_postal = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Code Postal'}))
-
+    adresse = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Adresse'}))
     type_local = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Type de bien'}))
     surface_reelle_bati = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Surface du bien(m²)'}))
     nombre_pieces_principales = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Nombre de pieces'}))
@@ -52,7 +52,8 @@ class AnnonceForm(forms.Form):
 
         self.helper.layout = Layout(
             'valeur_fonciere',
-            'code_type_local',
+            'code_postal',
+            'adresse',
             'type_local',
             'surface_reelle_bati',
             'nombre_pieces_principales',
