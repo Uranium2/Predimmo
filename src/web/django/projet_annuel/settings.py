@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'homepage',
     'crispy_forms',
     'leaflet',
+    'django_render_partial',
 
 ]
 
@@ -66,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
