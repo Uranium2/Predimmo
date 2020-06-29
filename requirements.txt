@@ -9,6 +9,7 @@ django-render-partial==0.4
 elasticsearch==7.7.1
 idna==2.9
 pytz==2020.1
+pymysql==0.9.3
 requests==2.23.0
 requests-aws4auth==0.9
 six==1.15.0
