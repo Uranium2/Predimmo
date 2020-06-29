@@ -21,7 +21,7 @@ RunningInstances = [instance for instance in instances]
 print(RunningInstances)
 for instance in RunningInstances:
     try:
-        if instance.tags[1]['Value'] == project_name:
+        if instance.tags[0]['Value'] == project_name:
             dns = instance.public_dns_name
             url = "http://{}:8000/index".format(dns)
             print(url)
