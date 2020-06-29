@@ -20,11 +20,12 @@ instances = ec2.instances.filter(Filters=filters)
 RunningInstances = [instance for instance in instances]
 print(RunningInstances)
 for instance in RunningInstances:
-    try:
-        if instance.tags[0]['Value'] == project_name:
-            dns = instance.public_dns_name
-            url = "http://{}:8000/index".format(dns)
-            print(url)
-            webbrowser.open(url, new=2)
-    except:
-        print("NO tag")
+    for i in range(0, 4):
+        try:
+            if instance.tags[i]['Value'] == project_name:
+                dns = instance.public_dns_name
+                url = "http://{}:8000/index".format(dns)
+                print(url)
+                webbrowser.open(url, new=2)
+        except:
+            print("NO tag at {}".format(i))
