@@ -1,9 +1,6 @@
 import json
 import boto3
 
-
-
-
 ACCESS_KEY = "AKIAINQGD2PLBK42S4NQ"
 SECRET_KEY = "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"
 ec2 = boto3.resource('ec2', aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY, region_name="eu-west-1")
@@ -33,16 +30,28 @@ Content-Disposition: attachment; filename="userdata.txt"
 
 #!/bin/bash
 sudo su
+yum update -y
 yum install python3 -y
 yum install git -y
 pip3 install --upgrade pip
 cd /home/ec2-user
-#git clone https://github.com/Uranium2/{}.git
-#chmod -R ugo+rwx {}
-#cd {}
-#git pull
+git clone https://github.com/Uranium2/{}.git
+chmod -R 777 {}
+cd {}
+DIR="/home/ec2-user/{}/.venv/"
+if [ -d "$DIR" ]; then
+    echo "Directory already exist"
+else
+    python3 -m venv .venv
+fi
+source .venv/bin/activate
+pip3 install --no-cache-dir tensorflow
+git stash
+git pull
 echo -e "{}\n{}\n{}\n{}\n{}" > aws_keys
-#pip install -r requirements.txt
+pip install -r requirements.txt
+python main.py
+chmod -R 777 ./data/
 #python3 stop_instance.py
     """.format(tag, tag, tag, ACCESS_KEY, SECRET_KEY, "predimodbinstance.cbiog1ld7y5x.eu-west-1.rds.amazonaws.com",
     "admin", "N8XR3u#m9[5Mk6UK", "3306")

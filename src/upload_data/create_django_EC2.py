@@ -1,9 +1,6 @@
 import json
 import boto3
 
-
-
-
 ACCESS_KEY = "AKIAJI26MDZ6Q5KV2NYA"
 SECRET_KEY = "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"
 ec2 = boto3.resource('ec2', aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY, region_name="eu-west-1")
