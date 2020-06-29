@@ -33,6 +33,7 @@ sudo su
 yum update -y
 yum install gcc -y
 yum install python3 -y
+yum install python3-devel -y
 yum install git -y
 yum install -y mysql-devel -y
 pip3 install --upgrade pip
