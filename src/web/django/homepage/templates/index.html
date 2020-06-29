@@ -28,7 +28,9 @@
   <div id="annonces" class="annonces">
     <p>Annonces</p>
     <p>
-      {{result}}
+      {% for annonce in annonces %}
+          {{annonce}}
+      {% endfor %}
     </p>
   </div>
 
