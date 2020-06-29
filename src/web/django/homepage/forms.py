@@ -17,8 +17,9 @@ class SearchForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.helper = FormHelper
+        self.helper = FormHelper(self)
         self.helper.form_method = 'post'
+        self.helper.form_tag = False
 
         self.helper.layout = Layout(
             'departement',
@@ -27,13 +28,12 @@ class SearchForm(forms.Form):
             'nb_pieces',
             'price',
 
-            Submit('submit', 'Submit', css_class='btn-success')
+            Submit('submit', 'Submit', css_class='btn-success1')
         )
 
 
 class AnnonceForm(forms.Form):
     CHOICES = [('1', 'Maison'), ('2', 'Appartement')]
-    valeur_fonciere = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Valeur Fonciere'}))
     code_postal = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Code Postal'}))
     adresse = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Adresse'}))
     type_local = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES)
@@ -46,11 +46,11 @@ class AnnonceForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.helper = FormHelper
+        self.helper = FormHelper(self)
         self.helper.form_method = 'post'
+        self.helper.form_tag = False
 
         self.helper.layout = Layout(
-            'valeur_fonciere',
             'code_postal',
             'adresse',
             'type_local',
@@ -75,13 +75,14 @@ class PredictionForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.helper = FormHelper
+        self.helper = FormHelper(self)
         self.helper.form_method = 'post'
+        self.helper.form_tag = False
 
         self.helper.layout = Layout(
             'type_local',
             'evolution',
 
-            Submit('submit', 'Submit', css_class='btn-success')
+            Submit('submit', 'Submit', css_class='btn-success3')
 
         )

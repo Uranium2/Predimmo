@@ -1,22 +1,92 @@
+
 {% load crispy_forms_tags %}
 {% load leaflet_tags %}
 {%load static%}
+{% load render_partial %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>Predimmo</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
-  <title>Annonces</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'annonce.css'%}">
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css"
+    type="text/css">
+  <link rel="stylesheet" type="text/css" href="{% static 'index.css'%}">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <link href="http://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css" rel="stylesheet">
 </head>
 
-<body id="bodyclass" class="bodyclass">
-  <div id="box" class="box">
-      <p>Poster une annonce</p>
-    {% crispy form form.helper %}
-  </div>
+<body>
+  <div id="map" class="map"></div>
+  <form class="uniForm" method="post">
+      <div id="box" class="box">
+        {% crispy form form.helper %}
+      </div>
+  </form>
+
+  <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
+  <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+  <script>
+    function generate_geojsonObject(coord) {
+      var geojsonObject = {
+        "type": "FeatureCollection",
+        "features": [{
+          "type": "Feature",
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": "REPLACE_ME"
+          }
+        }]
+      };
+      geojsonObject["features"][0]["geometry"]["coordinates"] = coord
+      return geojsonObject
+    }
+
+    var center = ol.proj.transform([37.41, 8.82], 'EPSG:4326', 'EPSG:3857');
+
+    var view = new ol.View({
+      center: ol.proj.fromLonLat([2.333333, 48.866667]),
+      zoom: 10
+    })
+
+    var map = new ol.Map({
+      target: 'map',
+      layers: [new ol.layer.Tile({
+        source: new ol.source.OSM()
+      })],
+      view: view
+    });
+
+    var geojsonObjects = []
+    {% for coord in coords %}
+      geojsonObjects.push(generate_geojsonObject({{ coord|safe }}))
+    {% endfor %}
+
+    var stylesObjects = []
+    {% for style in styles %}
+      stylesObjects.push({{ style|safe }})
+    {% endfor %}
+
+    for (var i = 0; i < geojsonObjects.length; i++) {
+      var originalSource = new ol.source.Vector({
+        features: (new ol.format.GeoJSON()).readFeatures(geojsonObjects[i], {
+          featureProjection: 'EPSG:3857'
+        })
+      });
+      // create a layer from it so we can visualize the original data
+      var originalLayer = new ol.layer.Vector({
+        source: originalSource,
+        style: stylesObjects[i]
+      });
+      console.log(stylesObjects[i])
+      map.addLayer(originalLayer);
+    }
+  </script>
 </body>
 </html>

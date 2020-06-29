@@ -21,33 +21,30 @@
 </head>
 
 <body>
-{% block content %}
-  <div id="map" class="map"></div>
-  <div id="box" class="box">{% crispy form form.helper %}</div>
-<a class="btn btn-primary" href="/index/annonce">Poster une annonce</a>
-  <div id="annonces" class="annonces" style="  position: fixed;
-    height:45%;
-    width: 18%;
-    border-style: double;
-    background-color: MintCream;
-    margin-left: 80%;
-    margin-top: 25%;
-    overflow: auto;
-    ">
-      <p>Annonces</p>
-      <p>
-        {{result}}
-      </p>
+
+
+  <a class="btn btn-primary" href="/index/annonce">Poster une annonce</a>
+
+  <div id="annonces" class="annonces">
+    <p>Annonces</p>
+    <p>
+      {{result}}
+    </p>
   </div>
 
-  <div>{% include 'prediction.html' %}</div>
-
-{% endblock content %}
-
+  <div id="map" class="map"></div>
+  <form class="uniForm" method="post">
+    {% csrf_token %}
+    {% for form in forms %}
+      <div id="box{{ forloop.counter }}" class="box{{ forloop.counter }}">
+        {% crispy form form.helper %}
+      </div>
+    {% endfor %}
+  </form>
 
   <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
- <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
   <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
   <script>
     function generate_geojsonObject(coord) {

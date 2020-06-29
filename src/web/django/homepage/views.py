@@ -4,9 +4,10 @@ from .forms import AnnonceForm
 from .forms import SearchForm, PredictionForm
 import requests
 import json
+from mysqlcon import get_conn
 from .query import my_query
-import pymysql
 import os
+from django.shortcuts import redirect
 
 
 def template_color(stroke_color, fille_color):
@@ -21,48 +22,13 @@ def template_color(stroke_color, fille_color):
         }})""".format(stroke_color, fille_color)
 
 
-def index(request):
+def make_map():
     module_dir = os.path.dirname(__file__)
-    result = ""
-    if request.method == 'POST':
-        form = SearchForm(request.POST)
-
-        conn = pymysql.connect(
-            host='predimodbinstance.cbiog1ld7y5x.eu-west-1.rds.amazonaws.com',
-            db='predimmo',
-            user='admin',
-            password='N8XR3u#m9[5Mk6UK',
-            port=3306)
-        print(conn)
-        # departement = form.cleaned_data['departement']
-        price = form.cleaned_data['price']
-        price_convert = str(price)
-        if form.is_valid():
-
-            try:
-                with conn.cursor() as cursor:
-
-                    sql = "SELECT * FROM data_django WHERE price = " + price_convert + ""
-                    cursor.execute(sql)
-                    result = cursor.fetchall()
-                    conn.commit()
-                    print(result)
-            finally:
-                conn.close()
-    else:
-        # Valeurs par défaut
-        form = SearchForm()
-        form.fields['departement'].initial = 75001
-        form.fields['price'].initial = 50000
-        form.fields['type_local'].initial = [0]
-
     file_path = os.path.join(module_dir, 'data', 'quartier_paris.geojson')
     coords = []
     with open(file_path, mode='r') as fp:
         for line in fp:
             coords.append(line)
-    # print(coords[0])
-    # coords = coords[0]
     styles = []
     for i in range(80):
         # change me according to results
@@ -73,11 +39,50 @@ def index(request):
             strike_color = "green"
             rgba = "{}, {}, 0".format(0, 255)
         styles.append(template_color(strike_color, rgba))
-        print(rgba)
-    return render(request, 'index.html', {'form': form, 'coords': coords, 'styles': styles})
+
+    return coords, styles
+
+def index(request):
+    result = ""
+    if request.method == 'POST':
+        formSearch = SearchForm(request.POST)
+        formPrediction = PredictionForm(request.POST)
+
+        if formSearch.is_valid():
+            departement = formSearch.cleaned_data['departement']
+            price = formSearch.cleaned_data['price']
+            price_convert = str(price)
+            try:
+                conn = get_conn()
+                with conn.cursor() as cursor:
+                    sql = "SELECT * FROM data_django WHERE price = " + price_convert + ""
+                    print(sql)
+                    cursor.execute(sql)
+                    result = cursor.fetchall()
+                    conn.commit()
+                    print(result)
+            finally:
+                conn.close()
+        elif formPrediction.is_valid():
+            print("prediction ok")
+    else:
+        # Valeurs par défaut
+        formSearch = SearchForm()
+        formSearch.fields['departement'].initial = 75001
+        formSearch.fields['price'].initial = 50000
+
+        formPrediction = PredictionForm()
+
+    coords, styles = make_map()
+
+    forms = [formSearch, formPrediction]
+
+    return render(request, 'index.html', {'forms': forms, 'coords': coords, 'styles': styles})
 
 
 def annonce(request):
+    coords, styles = make_map()
+
     if request.method == 'POST':
         form = AnnonceForm(request.POST)
         headers = {"Content-Type": "application/json"}
@@ -96,21 +101,14 @@ def annonce(request):
         print(x)
 
         if form.is_valid():
-            conn = pymysql.connect(
-                host='predimodbinstance.cbiog1ld7y5x.eu-west-1.rds.amazonaws.com',
-                db='predimmo',
-                user='admin',
-                password='N8XR3u#m9[5Mk6UK',
-                port=3306)
-            print(conn)
-            print("ca marche")
+            conn = get_conn()
             try:
                 with conn.cursor() as cursor:
                     # Create a new record
 
                     sql = "INSERT INTO `data_django` (`valeur_fonciere`, `code_type_local`,`type_local`, `surface_reelle_bati`, `nombre_pieces_principales`,`surface_terrain`,`longitude`,`latitude`,`message`,`price`) VALUES (%s, %s,%s, %s,%s, %s,%s,%s,%s, %s)"
                     cursor.execute(sql, (
-                        form.data['valeur_fonciere'], form.data['code_postal'], form.data['type_local'],
+                        form.data['price'], form.data['code_postal'], form.data['type_local'],
                         form.data['surface_reelle_bati'],
                         form.data['nombre_pieces_principales'], form.data['surface_terrain'], form.data['message'],
                         longitude, latitude, form.data['price']))
@@ -118,13 +116,7 @@ def annonce(request):
                     print("inséré")
             finally:
                 conn.close()
+                return redirect('/index/')
     else:
         form = AnnonceForm()
-
-    return render(request, 'annonce.html', {'form': form})
-
-
-def prediction(request):
-    form = PredictionForm(request.POST)
-    html = "<html><body>test: %s.</body></html>" % form
-    return HttpResponse(html)
+    return render(request, "annonce.html", {'form': form, 'coords': coords, 'styles': styles})
