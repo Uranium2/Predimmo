@@ -5,7 +5,6 @@ from .forms import SearchForm, PredictionForm, default_predictionForm, default_s
 import requests
 import json
 from mysqlcon import get_conn
-from .query import my_query
 import os
 from django.shortcuts import redirect
 
