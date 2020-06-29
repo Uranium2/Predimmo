@@ -25,5 +25,6 @@ def create_query_search(formSearch):
                 " AND code_type_local = " + str(type_local) + \
                 " AND surface_terrain BETWEEN " + str(superficie_low) + " AND " + str(superficie_up) + \
                 " AND nombre_pieces_principales BETWEEN " + str(nb_pieces_low) + " AND " + str(nb_pieces_up) + \
-                " AND code_postal = " + str(departement)
+                " AND code_postal = " + str(departement) + \
+                "LIMIT 5"
                                     
