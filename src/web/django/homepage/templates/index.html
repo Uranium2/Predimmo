@@ -75,8 +75,8 @@
     var center = ol.proj.transform([37.41, 8.82], 'EPSG:4326', 'EPSG:3857');
 
     var view = new ol.View({
-      center: ol.proj.fromLonLat([2.333333, 48.866667]),
-      zoom: 12.5
+      center: ol.proj.fromLonLat({{ pos_map }}),
+      zoom: {{ zoom }}
     })
 
     var map = new ol.Map({

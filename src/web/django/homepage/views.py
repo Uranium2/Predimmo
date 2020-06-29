@@ -21,7 +21,6 @@ def template_color(stroke_color, fille_color):
             }})
         }})""".format(stroke_color, fille_color)
 
-
 def make_map():
     module_dir = os.path.dirname(__file__)
     file_path = os.path.join(module_dir, 'data', 'quartier_paris.geojson')
@@ -41,6 +40,23 @@ def make_map():
         styles.append(template_color(strike_color, rgba))
 
     return coords, styles
+
+def get_coord_from_address(code_postal, adresse=None):
+    headers = {"Content-Type": "application/json"}
+    if adresse != None:
+        url = str(("http://api-adresse.data.gouv.fr/search/?q=" + str(adresse) + "&postcode=" + str(code_postal)))
+    else:
+        url = str(("http://api-adresse.data.gouv.fr/search/?q=" + str(code_postal)))
+    print(url)
+    r = requests.get(url, headers=headers, data="")
+    js = json.loads(r.text)
+    x = js['features'][0]['geometry']['coordinates']
+    longitude = x[0]
+    latitude = x[1]
+    pos = []
+    pos.append(longitude)
+    pos.append(latitude)
+    return pos
 
 def index(request):
     result = ""
@@ -62,22 +78,26 @@ def index(request):
                     annonces = list(result)
             finally:
                 conn.close()
-
+            pos_map = get_coord_from_address(formSearch.cleaned_data['departement'])
+            zoom = 14
             formPrediction = default_predictionForm()
         elif formPrediction.is_valid():
             print("prediction ok")
             formSearch = default_searchForm()
     else:
         # Valeurs par défaut
+        pos_map = [2.333333, 48.866667] # CENTRE DE PARIS
+        zoom = 12.5
         formSearch = default_searchForm()
         formPrediction = default_predictionForm()
 
     coords, styles = make_map()
 
     forms = [formSearch, formPrediction]
-    print(annonces)
 
-    return render(request, 'index.html', {'forms': forms, 'coords': coords, 'styles': styles, 'annonces': build_annonce_result(annonces)})
+    print(pos_map)
+
+    return render(request, 'index.html', {'forms': forms, 'coords': coords, 'styles': styles, 'annonces': build_annonce_result(annonces), 'pos_map': pos_map, 'zoom': zoom})
 
 def get_adress(x, y):
         url = str(("http://api-adresse.data.gouv.fr/reverse/?lon=" + str(x) + "&lat=" + str(y)))
@@ -87,7 +107,6 @@ def get_adress(x, y):
         js = json.loads(r.text)
         address = js['features'][0]['properties']['label']
         return address
-
 
 def build_annonce_result(annonces):
     div = []
@@ -108,36 +127,22 @@ def build_annonce_result(annonces):
                     str(annonce[5]) + " pièces\n")
     return div
 
-
 def annonce(request):
     coords, styles = make_map()
 
     if request.method == 'POST':
         form = AnnonceForm(request.POST)
-        headers = {"Content-Type": "application/json"}
         adresse = form.data['adresse']
         code_postal = form.data['code_postal']
-        url = str(("http://api-adresse.data.gouv.fr/search/?q=" + str(adresse) + "&postcode=" + str(code_postal)))
-        print(url)
-        r = requests.get(url, headers=headers, data="")
-        js = json.loads(r.text)
-        x = js['features'][0]['geometry']['coordinates']
-        longitude = x[0]
-        latitude = x[1]
-
-        content = r.text
-        # print(content)
-        print(x)
-
+        pos = get_coord_from_address(code_postal, adresse)
+        longitude = pos[0]
+        latitude = pos[1]
         if form.is_valid():
-            print("form valid")
             conn = get_conn()
             try:
                 with conn.cursor() as cursor:
                     # Create a new record
                     date_mutation = date.today().strftime("%y-%m-%d")
-                    print(date_mutation)
-                    print(x)
                     sql = "INSERT INTO data_django (`date_mutation`, `code_postal`, `valeur_fonciere`, `code_type_local`, `surface_reelle_bati`, `nombre_pieces_principales`,`surface_terrain`,`longitude`,`latitude`,`message`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
                     cursor.execute(sql, (
                         date_mutation,
@@ -151,11 +156,10 @@ def annonce(request):
                         latitude,
                         form.data['message']))
                     conn.commit()
-                    print("inséré")
+                    print("Inserted")
             finally:
                 conn.close()
                 return redirect('/index/')
     else:
-        print("form not valid")
         form = AnnonceForm()
     return render(request, "annonce.html", {'form': form, 'coords': coords, 'styles': styles})
