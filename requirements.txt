@@ -1,10 +1,11 @@
 asgiref==3.2.7
 certifi==2020.4.5.1
 chardet==3.0.4
-Django==2.1
+Django==3.0.6
 django-crispy-forms==1.9.1
 django-leaflet==0.26.0
 django_range_slider==0.2.4
+django-render-partial==0.4
 elasticsearch==7.7.1
 idna==2.9
 pytz==2020.1
