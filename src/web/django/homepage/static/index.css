@@ -39,3 +39,16 @@
       margin-top: 25%;
       overflow: auto;
     }
+    .annonce {
+      position: relative;
+      border-style: inset;
+      background-color: rgb(207, 243, 225);
+      overflow: auto;
+    }
+    .input-color .color-box {
+        width: 10%;
+        display: inline-block;
+        background-color: #ccc;
+        margin-left: auto;
+        margin-right: auto;
+    }

@@ -24,12 +24,20 @@
 
 
   <a class="btn btn-primary" href="/index/annonce">Poster une annonce</a>
-
-  <div id="annonces" class="annonces">
-    <p>Annonces</p>
+  <div id="annonces" class="annonces" style="overflow-y: scroll">
+    <p>Recommandations</p>
     <p>
       {% for annonce in annonces %}
-          {{annonce}}
+      <div id="annonce" class="annonce"> 
+        {% for item in annonce %}
+              <div class="color-box" style="background-color: #FF850A;">
+                &shy;
+              </div>
+              {{ item|linebreaks}}
+              <!-- Replace "#FF850A" to change the color -->
+            
+          </div>
+        {% endfor %}
       {% endfor %}
     </p>
   </div>

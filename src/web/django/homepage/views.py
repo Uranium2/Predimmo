@@ -77,7 +77,36 @@ def index(request):
     forms = [formSearch, formPrediction]
     print(annonces)
 
-    return render(request, 'index.html', {'forms': forms, 'coords': coords, 'styles': styles, 'annonces': annonces})
+    return render(request, 'index.html', {'forms': forms, 'coords': coords, 'styles': styles, 'annonces': build_annonce_result(annonces)})
+
+def get_adress(x, y):
+        url = str(("http://api-adresse.data.gouv.fr/reverse/?lon=" + str(x) + "&lat=" + str(y)))
+        print(url)
+        headers = {"Content-Type": "application/json"}
+        r = requests.get(url, headers=headers, data="")
+        js = json.loads(r.text)
+        address = js['features'][0]['properties']['label']
+        return address
+
+
+def build_annonce_result(annonces):
+    div = []
+    for i, annonce in enumerate(annonces):
+        div.append([])
+        x = annonce[7]
+        y = annonce[8]
+        address = get_adress(x, y)
+        print(annonce[3])
+        if annonce[3] == 1:
+            batiment = "Maison"
+        else:
+            batiment = "Appartement"
+        
+        div[i].append( address + "\n" + str(annonce[2]) + " €\n" + \
+                    batiment + "\n" + \
+                    str(annonce[4]) + "	㎡\n" + \
+                    str(annonce[5]) + " pièces\n")
+    return div
 
 
 def annonce(request):
