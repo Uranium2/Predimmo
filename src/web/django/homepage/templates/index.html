@@ -118,23 +118,38 @@
       map.addLayer(originalLayer);
     }
 
-    var p = new ol.Feature({
-        geometry: new ol.geom.Point( {{ pos_map }})
-      });
-    var pStyle = new ol.style.Style({
-      image: new ol.style.Circle({
-        radius: 7,
-        fill: new ol.style.Fill({color: '#ff8000'})
-      })
-    })
+    var pointsObjects = []
+    {% for point in points %}
+      pointsObjects.push({{ point|safe }})
+    {% endfor %}
 
-    var pLayer = new ol.layer.Vector({
-            source: new ol.source.Vector({
-              features: [p]
-            }),
-            style: pStyle
-    });
-    map.addLayer(pLayer);
+    var colorsPoint = []
+    {% for color in colors %}
+      colorsPoint.push("{{ color|safe }}")
+    {% endfor %}
+
+    for (var i = 0; i < pointsObjects.length; i++) {
+      var p = new ol.Feature({
+          geometry: new ol.geom.Point(ol.proj.fromLonLat(pointsObjects[i]))
+        });
+      var pStyle = new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 7,
+          fill: new ol.style.Fill({color: colorsPoint[i]}),
+          stroke: new ol.style.Stroke({
+            color: [0,0,0], width: 2
+          })
+        })
+      })
+
+      var pLayer = new ol.layer.Vector({
+          source: new ol.source.Vector({
+            features: [p]
+          }),
+          style: pStyle
+      });
+      map.addLayer(pLayer);
+    }
 
   </script>
 </body>

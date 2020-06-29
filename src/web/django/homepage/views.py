@@ -56,6 +56,7 @@ def get_coord_from_address(code_postal, adresse=None):
     pos = []
     pos.append(longitude)
     pos.append(latitude)
+    print(pos)
     return pos
 
 def get_colors():
@@ -83,12 +84,15 @@ def index(request):
                     cursor.execute(sql)
                     result = cursor.fetchall()
                     conn.commit()
-                    print(result)
                     annonces = list(result)
             finally:
                 conn.close()
             pos_map = get_coord_from_address(formSearch.cleaned_data['departement'])
             zoom = 14
+            points = []
+            
+            for annonce in annonces:
+                points.append([float(annonce[7]), float(annonce[8])])
             formPrediction = default_predictionForm()
         elif formPrediction.is_valid():
             print("prediction ok")
@@ -99,18 +103,21 @@ def index(request):
         zoom = 12.5
         formSearch = default_searchForm()
         formPrediction = default_predictionForm()
+        points = []
 
     coords, styles = make_map()
 
     forms = [formSearch, formPrediction]
 
-    print(pos_map)
-
-    return render(request, 'index.html', {'forms': forms, 'coords': coords, 'styles': styles, 'annonces': build_annonce_result(annonces), 'pos_map': pos_map, 'zoom': zoom, 'colors': get_colors()})
+    return render(request, 'index.html', {'forms': forms, 'coords': coords, 'styles': styles, \
+            'annonces': build_annonce_result(annonces), \
+            'pos_map': pos_map, \
+            'zoom': zoom, \
+            'colors': get_colors(), \
+            'points': points})
 
 def get_adress(x, y):
         url = str(("http://api-adresse.data.gouv.fr/reverse/?lon=" + str(x) + "&lat=" + str(y)))
-        print(url)
         headers = {"Content-Type": "application/json"}
         r = requests.get(url, headers=headers, data="")
         js = json.loads(r.text)
@@ -124,7 +131,6 @@ def build_annonce_result(annonces):
         x = annonce[7]
         y = annonce[8]
         address = get_adress(x, y)
-        print(annonce[3])
         if annonce[3] == 1:
             batiment = "Maison"
         else:
