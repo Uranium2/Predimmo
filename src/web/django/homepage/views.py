@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from .forms import AnnonceForm
-from .forms import SearchForm, PredictionForm
+from .forms import SearchForm, PredictionForm, default_predictionForm, default_searchForm
 import requests
 import json
 from mysqlcon import get_conn
@@ -63,15 +63,17 @@ def index(request):
                     print(result)
             finally:
                 conn.close()
+
+            formPrediction = default_predictionForm()
         elif formPrediction.is_valid():
             print("prediction ok")
+            formSearch = default_searchForm()
+
+
     else:
         # Valeurs par défaut
-        formSearch = SearchForm()
-        formSearch.fields['departement'].initial = 75001
-        formSearch.fields['price'].initial = 50000
-
-        formPrediction = PredictionForm()
+        formSearch = default_searchForm()
+        formPrediction = default_predictionForm()
 
     coords, styles = make_map()
 

@@ -11,6 +11,31 @@
       border-style: double;
       background-color: MintCream;
       position: fixed;
+      width: 30%;
+      margin-top: 5%;
+    }
+    .box1 {
+      border-style: double;
+      background-color: MintCream;
+      position: fixed;
       width: 18%;
       margin-top: 12%;
+    }
+    .box2 {
+      height:42%;
+      width: 18%;
+      border-style: double;
+      background-color: MintCream;
+      margin-left: 80%;
+      margin-top: 1%;
+    }
+    .annonces {
+      position: fixed;
+      height:45%;
+      width: 18%;
+      border-style: double;
+      background-color: MintCream;
+      margin-left: 80%;
+      margin-top: 25%;
+      overflow: auto;
     }

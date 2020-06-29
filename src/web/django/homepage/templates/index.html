@@ -34,9 +34,9 @@
 
   <div id="map" class="map"></div>
   <form class="uniForm" method="post">
-    {% csrf_token %}
     {% for form in forms %}
       <div id="box{{ forloop.counter }}" class="box{{ forloop.counter }}">
+        {% csrf_token %}
         {% crispy form form.helper %}
       </div>
     {% endfor %}
@@ -66,7 +66,7 @@
 
     var view = new ol.View({
       center: ol.proj.fromLonLat([2.333333, 48.866667]),
-      zoom: 10
+      zoom: 12.5
     })
 
     var map = new ol.Map({
