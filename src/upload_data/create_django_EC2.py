@@ -31,8 +31,10 @@ Content-Disposition: attachment; filename="userdata.txt"
 #!/bin/bash
 sudo su
 yum update -y
+yum install gcc -y
 yum install python3 -y
 yum install git -y
+yum install -y mysql-devel -y
 pip3 install --upgrade pip
 cd /home/ec2-user
 git clone https://FlorianBergeron:wPG4b.rh@github.com/Uranium2/{}.git
