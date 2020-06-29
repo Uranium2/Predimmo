@@ -58,6 +58,15 @@ def get_coord_from_address(code_postal, adresse=None):
     pos.append(latitude)
     return pos
 
+def get_colors():
+    colors = []
+    colors.append("#ff8000")
+    colors.append("#eeff00")
+    colors.append("#5eff00")
+    colors.append("#00e1ff")
+    colors.append("#2600ff")
+    return colors
+
 def index(request):
     result = ""
     annonces = list()
@@ -97,7 +106,7 @@ def index(request):
 
     print(pos_map)
 
-    return render(request, 'index.html', {'forms': forms, 'coords': coords, 'styles': styles, 'annonces': build_annonce_result(annonces), 'pos_map': pos_map, 'zoom': zoom})
+    return render(request, 'index.html', {'forms': forms, 'coords': coords, 'styles': styles, 'annonces': build_annonce_result(annonces), 'pos_map': pos_map, 'zoom': zoom, 'colors': get_colors()})
 
 def get_adress(x, y):
         url = str(("http://api-adresse.data.gouv.fr/reverse/?lon=" + str(x) + "&lat=" + str(y)))

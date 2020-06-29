@@ -21,7 +21,13 @@
 </head>
 
 <body>
-
+  <style>
+  {% for color in colors %}
+    .color-box{{ forloop.counter}}{
+      background-color: {{ color }}; 
+    }
+  {% endfor %}
+  </style>
 
   <a class="btn btn-primary" href="/index/annonce">Poster une annonce</a>
   <div id="annonces" class="annonces" style="overflow-y: scroll">
@@ -30,7 +36,7 @@
       {% for annonce in annonces %}
       <div id="annonce" class="annonce"> 
         {% for item in annonce %}
-              <div class="color-box" style="background-color: #FF850A;">
+              <div id="color-box{{ forloop.parentloop.counter}}" class="color-box{{ forloop.parentloop.counter}}">
                 &shy;
               </div>
               {{ item|linebreaks}}
@@ -111,6 +117,25 @@
       console.log(stylesObjects[i])
       map.addLayer(originalLayer);
     }
+
+    var p = new ol.Feature({
+        geometry: new ol.geom.Point( {{ pos_map }})
+      });
+    var pStyle = new ol.style.Style({
+      image: new ol.style.Circle({
+        radius: 7,
+        fill: new ol.style.Fill({color: '#ff8000'})
+      })
+    })
+
+    var pLayer = new ol.layer.Vector({
+            source: new ol.source.Vector({
+              features: [p]
+            }),
+            style: pStyle
+    });
+    map.addLayer(pLayer);
+
   </script>
 </body>
 </html>

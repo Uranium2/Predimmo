@@ -46,9 +46,9 @@
       overflow: auto;
     }
     .input-color .color-box {
-        width: 10%;
-        display: inline-block;
-        background-color: #ccc;
-        margin-left: auto;
-        margin-right: auto;
+      width: 10%;
+      display: inline-block;
+      background-color: #ccc;
+      margin-left: auto;
+      margin-right: auto;
     }
