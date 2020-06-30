@@ -8,6 +8,7 @@ from mysqlcon import get_conn, create_query_search
 import os
 from django.shortcuts import redirect
 from datetime import date
+from random import uniform
 
 
 def template_color(stroke_color, fille_color):
@@ -92,7 +93,11 @@ def index(request):
             points = []
             
             for annonce in annonces:
-                points.append([float(annonce[7]), float(annonce[8])])
+                x = float(annonce[7])
+                y = float(annonce[8])
+                x = x + uniform(0.001, 0.0001)
+                y = y + uniform(0.001, 0.0001)
+                points.append([x, y])
             formPrediction = default_predictionForm()
         elif formPrediction.is_valid():
             print("prediction ok")
@@ -139,7 +144,8 @@ def build_annonce_result(annonces):
         div[i].append( address + "\n" + str(annonce[2]) + " €\n" + \
                     batiment + "\n" + \
                     str(annonce[4]) + "	㎡\n" + \
-                    str(annonce[5]) + " pièces\n")
+                    str(annonce[5]) + " pièces\n" +\
+                    str(annonce[9]))
     return div
 
 def annonce(request):

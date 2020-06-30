@@ -20,7 +20,7 @@ def create_query_search(formSearch):
     superficie_up = superficie + 10 / 100 * superficie
     nb_pieces_low = nb_pieces - 1
     nb_pieces_up = nb_pieces + 1
-    # return "select * from data_django"
+    # return "select * from data_django WHERE code_postal = " + str(departement) + " limit 5"
     return "SELECT * FROM data_django WHERE valeur_fonciere BETWEEN " + str(price_low) + " AND " + str(price_up) + \
                 " AND code_type_local = " + str(type_local) + \
                 " AND surface_terrain BETWEEN " + str(superficie_low) + " AND " + str(superficie_up) + \
