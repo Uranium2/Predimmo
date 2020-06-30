@@ -48,7 +48,7 @@ source .venv/bin/activate
 pip3 install --no-cache-dir tensorflow
 git stash
 git pull
-echo -e "{}\n{}\n{}\n{}\n{}" > aws_keys
+echo -e "{}\n{}\n{}\n{}\n{}\n{}" > aws_keys
 pip install -r requirements.txt
 python main.py
 chmod -R 777 ./data/
