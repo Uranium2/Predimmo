@@ -12,7 +12,7 @@
       background-color: MintCream;
       position: fixed;
       width: 30%;
-      margin-top: 5%;
+      margin-top: 25%;
     }
     .box1 {
       border-style: double;
@@ -27,6 +27,14 @@
       position: fixed;
       margin-left: 80%;
       margin-top: 1%;
+    }
+    .pourcentage {
+      border-style: double;
+      background-color: MintCream;
+      position: fixed;
+      margin-top: 1%;
+      width: 18%;
+      height: 18%;
     }
     .annonces {
       position: fixed;
@@ -50,4 +58,12 @@
       background-color: #ccc;
       margin-left: auto;
       margin-right: auto;
+    }
+
+    .perc {
+    display: inline-block;
+    background-color: white;
+    height: 50%;
+    width: 30%;
+    margin-top: -5px;
     }

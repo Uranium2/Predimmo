@@ -18,9 +18,11 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
     integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
   <link href="http://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css" rel="stylesheet">
+  <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
 </head>
 
-<body>
+<body onload="color_html()">
+
   <style>
   {% for color in colors %}
     .color-box{{ forloop.counter}}{
@@ -57,12 +59,69 @@
       </div>
     {% endfor %}
   </form>
+  <div id="pourcentage" class="pourcentage">
+    <p>Paris</p>
+    <div class="perc" id="perc1"><p id="perc1_1"></p></div>
+    <div class="perc" id="perc2"><p id="perc2_2"></p></div>
+    <div class="perc" id="perc3"><p id="perc3_3"></p></div>
+  </div>
 
-  <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+  <script src="jquery-3.5.1.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
   <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
   <script>
+
+var perc1 = document.getElementById("perc1");
+var perc2 = document.getElementById("perc2");
+var perc3 = document.getElementById("perc3");
+var body = document.getElementsByTagName("BODY")[0];
+body.addEventListener("load", function(){
+
+})
+
+
+function color_html()
+{
+let pred_trim = 10;
+let pred_3 = 0;
+let pred_5 = 12;
+  if (pred_trim > 5) {
+        perc1.style.color = "#008000";
+        text = "<img src='predup.png';>";
+        document.getElementById("perc1_1").innerHTML = pred_trim + "%" + text;
+    }
+    else {
+        perc1.style.color = "#FF0000";
+        text = "<img src='predown.png' style= height: 5%; width: 5%;>";
+        document.getElementById("perc1_1").innerHTML = pred_trim + "%" + text;
+    }
+     if (pred_3 > 5) {
+         perc2.style.color = "#008000";
+         text = "<img src='predup.png' style= height: 1%; width: 1%;>";
+        document.getElementById("perc2_2").innerHTML = pred_3 + "%" + text;
+    }
+    else {
+        perc2.style.color = "#FF0000";
+        text = "<img src='predown.png' style= height: 5%; width: 5%;>";
+        document.getElementById("perc2_2").innerHTML = pred_3 + "%" + text;
+    }
+     if (pred_5 > 5) {
+
+        perc3.style.color = "#008000";
+        text = "<img src='predup.png' style= height: 1%; width: 1%;>";
+        document.getElementById("perc3_3").innerHTML = pred_5 + "%" + text;
+    }
+    else {
+        perc3.style.color = "#FF0000";
+        text = "<img src='predown.png' style= height: 5%; width: 5%;>";
+        document.getElementById("perc3_3").innerHTML = pred_5 + "%";
+    }
+
+
+}
+
+
     function generate_geojsonObject(coord) {
       var geojsonObject = {
         "type": "FeatureCollection",
@@ -152,5 +211,6 @@
     }
 
   </script>
+
 </body>
 </html>
