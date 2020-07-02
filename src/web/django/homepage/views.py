@@ -69,6 +69,17 @@ def get_colors():
     colors.append("#2600ff")
     return colors
 
+def get_colors_pred(list_pred):
+    list_pred_color = {}
+    for pred in list_pred:
+        if pred < 5:
+            list_pred_color[pred] = ['"#ff8000"', "down"]
+        elif pred < 0:
+            list_pred_color[pred] = ['"#eeff00"', "down"]
+        elif pred > 5:
+            list_pred_color[pred] = ['"#ee5eff"', "up"]
+    return list_pred_color
+
 def index(request):
     result = ""
     annonces = list()
@@ -111,7 +122,7 @@ def index(request):
         points = []
 
     coords, styles = make_map()
-
+    percentages = [10, -5, 0] # ICI FAIRE LA REQUETE DES % SELON LA REGION
     forms = [formSearch, formPrediction]
 
     return render(request, 'index.html', {'forms': forms, 'coords': coords, 'styles': styles, \
@@ -119,7 +130,8 @@ def index(request):
             'pos_map': pos_map, \
             'zoom': zoom, \
             'colors': get_colors(), \
-            'points': points})
+            'points': points,
+            'colors_pred': get_colors_pred(percentages)})
 
 def get_adress(x, y):
         url = str(("http://api-adresse.data.gouv.fr/reverse/?lon=" + str(x) + "&lat=" + str(y)))
