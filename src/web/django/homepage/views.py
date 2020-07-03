@@ -80,6 +80,17 @@ def get_colors_pred(list_pred):
             list_pred_color[pred] = ['"#ee5eff"', "up"]
     return list_pred_color
 
+def get_preditions(departement=None):
+    list_predictions = [] # [10, -5, 2]
+    if departement = None:
+        #trouver la prediction de paris en total
+        print(list_predictions)
+    else:
+        #trouver la prediction en fonction du departement
+        print(list_predictions)
+
+    return list_predictions 
+
 def index(request):
     result = ""
     annonces = list()
@@ -99,9 +110,11 @@ def index(request):
                     annonces = list(result)
             finally:
                 conn.close()
-            pos_map = get_coord_from_address(formSearch.cleaned_data['departement'])
+            departement = formSearch.cleaned_data['departement']
+            pos_map = get_coord_from_address(departement)
             zoom = 14
             points = []
+            percentages = get_preditions(departement)
             
             for annonce in annonces:
                 x = float(annonce[7])
@@ -119,6 +132,7 @@ def index(request):
         zoom = 12.5
         formSearch = default_searchForm()
         formPrediction = default_predictionForm()
+        percentages = get_preditions(departement)
         points = []
 
     coords, styles = make_map()
