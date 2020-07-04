@@ -1,6 +1,11 @@
 import pymysql
 
 def get_conn():
+    """ Get a connection to the RDS database
+
+    Returns:
+        pymysql.connect: Connection to the RDS database
+    """
     return pymysql.connect(
         host='predimodbinstance.cbiog1ld7y5x.eu-west-1.rds.amazonaws.com',
         db='predimmo',
@@ -9,6 +14,14 @@ def get_conn():
         port=3306)
 
 def create_query_search(formSearch):
+    """Create a query search for the SearchForm after the user click on the 'submit' button for a search
+
+    Args:
+        formSearch (Forms.form): The POST form of the request
+
+    Returns:
+        String: SQL statement
+    """
     departement = formSearch.cleaned_data['departement']
     price = formSearch.cleaned_data['price']
     type_local = formSearch.cleaned_data['type_local']

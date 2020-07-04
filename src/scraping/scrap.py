@@ -16,6 +16,12 @@ url_page = "https://www.leboncoin.fr/_immobilier_/offres/ile_de_france/p-{}/"
 
 
 def append_list_as_row(file_path, l):
+    """ Appends a list in a file
+
+    Args:
+        file_path (String): File path 
+        l (String): List of data to appends
+    """
     script_dir = os.path.dirname(__file__)
     abs_file_path = os.path.join(script_dir, file_path)
     with open(abs_file_path, 'a+', newline='', encoding='utf-8') as write_obj:
@@ -23,6 +29,12 @@ def append_list_as_row(file_path, l):
         csv_writer.writerow(l)
 
 def scrap_page(url, date):
+    """Scrap the URL to get all the values of posts inside it. It will travel to all links to find all values.
+
+    Args:
+        url (String): http URL
+        date (String): Todays day to happend in the data: "%d/%m/%Y"
+    """
     response = requests.get(url, headers=headers)
     if (response.status_code != 200):
         return

@@ -12,6 +12,15 @@ from random import uniform
 
 
 def template_color(stroke_color, fille_color):
+    """Creates a Javascript ol.style.Style statement that will describe a Layer in OpenLayers
+
+    Args:
+        stroke_color (String): HTML color code
+        fille_color (String): HTML color code
+
+    Returns:
+        String: JS statement that holds a new ol.style.Style 
+    """
     return """new ol.style.Style({{
             stroke: new ol.style.Stroke({{
                 color: '{}',
@@ -23,6 +32,12 @@ def template_color(stroke_color, fille_color):
         }})""".format(stroke_color, fille_color)
 
 def make_map():
+    """Generate a JS statement with the Layer and Style for the map
+
+    Returns:
+        coords (List[String]): List of coords from quartier_paris.geojson
+        styles (List[String]): List of styles with respect of coords
+    """
     module_dir = os.path.dirname(__file__)
     file_path = os.path.join(module_dir, 'data', 'quartier_paris.geojson')
     coords = []
@@ -43,6 +58,15 @@ def make_map():
     return coords, styles
 
 def get_coord_from_address(code_postal, adresse=None):
+    """Get coordinate from an address
+
+    Args:
+        code_postal (Int): Postal code of a city
+        adresse (String, optional): The adresse of a house. Defaults to None.
+
+    Returns:
+        pos (List(Int, Int)): Give a list that holds X and Y coordinates of the given adress, else the adresse of Paris
+    """
     headers = {"Content-Type": "application/json"}
     if adresse != None:
         url = str(("http://api-adresse.data.gouv.fr/search/?q=" + str(adresse) + "&postcode=" + str(code_postal)))
@@ -61,6 +85,11 @@ def get_coord_from_address(code_postal, adresse=None):
     return pos
 
 def get_colors():
+    """Get list of colors for the Recommandations color helper
+
+    Returns:
+        list(String): List of HTML colors
+    """
     colors = []
     colors.append("#ff8000")
     colors.append("#eeff00")
@@ -70,6 +99,14 @@ def get_colors():
     return colors
 
 def get_colors_pred(list_pred):
+    """Get the color with respect of a pediction list
+
+    Args:
+        list_pred (List(Int)): List of Predictions (Int => categories of predictions)
+
+    Returns:
+        List(String, String): List of color HTML and instruction for the displayed arrow Up or Down for the HTML
+    """
     list_pred_color = {}
     for pred in list_pred:
         if pred < 5:
@@ -81,8 +118,16 @@ def get_colors_pred(list_pred):
     return list_pred_color
 
 def get_preditions(departement=None):
+    """Get the predictions on the RDS of each city code or of Paris
+
+    Args:
+        departement (Int, optional): City code. Defaults to None.
+
+    Returns:
+        String: List of predictions
+    """
     list_predictions = [] # [10, -5, 2]
-    if departement = None:
+    if departement == None:
         #trouver la prediction de paris en total
         print(list_predictions)
     else:
@@ -92,6 +137,15 @@ def get_preditions(departement=None):
     return list_predictions 
 
 def index(request):
+    """View for the index Page
+        This will generate all the default forms, handle POST and GET request for the index page
+
+    Args:
+        request (request): The request sent by the user
+
+    Returns:
+        render: Send the render to the client to render the index.hmtl with multiples variables that will be used to display data
+    """
     result = ""
     annonces = list()
     if request.method == 'POST':
@@ -148,14 +202,31 @@ def index(request):
             'colors_pred': get_colors_pred(percentages)})
 
 def get_adress(x, y):
-        url = str(("http://api-adresse.data.gouv.fr/reverse/?lon=" + str(x) + "&lat=" + str(y)))
-        headers = {"Content-Type": "application/json"}
-        r = requests.get(url, headers=headers, data="")
-        js = json.loads(r.text)
-        address = js['features'][0]['properties']['label']
-        return address
+    """Get adresse from coordinates
+
+    Args:
+        x (Int): Long
+        y (Int): Lat
+
+    Returns:
+        String: The street and city name in a String format
+    """
+    url = str(("http://api-adresse.data.gouv.fr/reverse/?lon=" + str(x) + "&lat=" + str(y)))
+    headers = {"Content-Type": "application/json"}
+    r = requests.get(url, headers=headers, data="")
+    js = json.loads(r.text)
+    address = js['features'][0]['properties']['label']
+    return address
 
 def build_annonce_result(annonces):
+    """Builds the HTML code to display the Recommandations in the right bottom corner
+
+    Args:
+        annonces (List(String)): List of element describing the house
+
+    Returns:
+        String: Formated String with the needed information
+    """
     div = []
     for i, annonce in enumerate(annonces):
         div.append([])
@@ -175,6 +246,16 @@ def build_annonce_result(annonces):
     return div
 
 def annonce(request):
+    """View for the annonce Page
+        This will generate all the default forms, handle POST and GET request for the annonce page.
+        It will also send the data to the RDS.
+
+    Args:
+        request (request): The request sent by the user
+
+    Returns:
+        render: Send the render to the client to render the annonce.hmtl with multiples variables that will be used to display data. 
+    """
     coords, styles = make_map()
 
     if request.method == 'POST':

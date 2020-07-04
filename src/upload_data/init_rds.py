@@ -3,6 +3,11 @@ import csv
 import os
 
 def get_conn():
+    """ Get a connection to the RDS database
+
+    Returns:
+        pymysql.connect: Connection to the RDS database
+    """
     return pymysql.connect(
         host='predimodbinstance.cbiog1ld7y5x.eu-west-1.rds.amazonaws.com',
         db='predimmo',

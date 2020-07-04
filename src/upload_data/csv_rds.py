@@ -27,6 +27,11 @@ url_cadastre = "https://cadastre.data.gouv.fr/data/etalab-dvf/latest/csv/{}/depa
 print(url_cadastre)
 
 def get_date_cadastre():
+    """ Get the date of the last downloaded CSV
+
+    Returns:
+        String: '16-Apr-2020'
+    """
     response = requests.get(url_cadastre, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     res = soup.find_all('a', href=True)
@@ -35,6 +40,11 @@ def get_date_cadastre():
     return date
 
 def check_cadastre_update():
+    """ Check if we need to run the update of cadastre.
+
+    Returns:
+        Bool: True or False
+    """
     file_path = os.path.join(currentDirectory, "last_date_import.txt")
     try:
         text_file = open(file_path)

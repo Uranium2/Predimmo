@@ -5,6 +5,11 @@ from crispy_forms.layout import Layout, Submit
 from django_range_slider.fields import RangeSliderField
 
 def default_searchForm():
+    """Fill the defaults values of the Search Form
+
+    Returns:
+        SearchForm: SearchForm with initial values
+    """
     formSearch = SearchForm()
     formSearch.fields['departement'].initial = 75001
     formSearch.fields['price'].initial = 50000
@@ -12,6 +17,11 @@ def default_searchForm():
 
 
 class SearchForm(forms.Form):
+    """SearchForm class is the class that holds all the data of the Form with performing a researh on the Index.
+
+    Args:
+        forms (Form): Form
+    """
     CHOICES = [('1', 'Maison'), ('2', 'Appartement')]
     departement = forms.IntegerField(label='Département', min_value=75001, max_value=75020)
     type_local = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES)
@@ -39,6 +49,11 @@ class SearchForm(forms.Form):
 
 
 class AnnonceForm(forms.Form):
+    """AnnonceForm  is the class that holds all the data of the Form with performing a researh on the Annonces
+
+    Args:
+        forms (Form): Form
+    """
     CHOICES = [('1', 'Maison'), ('2', 'Appartement')]
     code_postal = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Code Postal'}))
     adresse = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Adresse'}))
@@ -70,10 +85,20 @@ class AnnonceForm(forms.Form):
 
         )
 def default_predictionForm():
+    """Create the default prediction form
+
+    Returns:
+        PredictionForm: PredictionForm empty
+    """
     formPrediction = PredictionForm()
     return formPrediction
 
 class PredictionForm(forms.Form):
+    """PredictionForm  is the class that holds all the data of the Form with performing a submit on the prediction
+
+    Args:
+        forms (Form): Form
+    """
     CHOICES_TYPE = [('1', 'Maison'), ('2', 'Appartement')]
     CHOICES_TIME = [('1', 'Evolution Trimestrielle'), ('2', 'Evolution sur 1 an'), ('3', 'Evolution sur 3 ans')]
 
