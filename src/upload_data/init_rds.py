@@ -59,7 +59,10 @@ cursor.execute("ALTER TABLE predimmo.data_django ADD UNIQUE `unique_index`(date_
 DATABASE_BODY = """
 CREATE TABLE IF NOT EXISTS predimmo.prediction(
     code_postal int(11),
-    prediction int(11) DEFAULT NULL
+    prediction_1 int(11) DEFAULT NULL,
+    prediction_3 int(11) DEFAULT NULL,
+    prix_m2_appart int(11) DEFAULT NULL,
+   prix_m2_maison int(11) DEFAULT NULL
 )
 """
 
