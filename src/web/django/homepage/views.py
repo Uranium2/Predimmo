@@ -186,7 +186,7 @@ def index(request):
         zoom = 12.5
         formSearch = default_searchForm()
         formPrediction = default_predictionForm()
-        percentages = get_preditions(departement)
+        percentages = get_preditions()
         points = []
 
     coords, styles = make_map()
