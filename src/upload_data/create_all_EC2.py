@@ -45,11 +45,10 @@ else
     python3 -m venv .venv
 fi
 source .venv/bin/activate
-pip3 install --no-cache-dir tensorflow
 git stash
 git pull
 echo -e "{}\n{}\n{}\n{}\n{}\n{}" > aws_keys
-pip install -r requirements.txt
+pip install -r requirements.txt --no-cache-dir
 python main.py
 chmod -R 777 ./data/
 python3 stop_instance.py
