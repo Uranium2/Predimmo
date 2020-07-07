@@ -21,9 +21,9 @@ cursor = conn.cursor()
 cursor.execute('CREATE DATABASE IF NOT EXISTS predimmo;')
 
 #date_mutation    valeur_fonciere    code_type_local    type_local    surface_reelle_bati    nombre_pieces_principales    surface_terrain    longitude    latitude
-cursor.execute("drop table if exists predimmo.data")
-cursor.execute("drop table if exists predimmo.data_django")
-cursor.execute("drop table if exists predimmo.prediction")
+# cursor.execute("drop table if exists predimmo.data")
+# cursor.execute("drop table if exists predimmo.data_django")
+# cursor.execute("drop table if exists predimmo.prediction")
 
 DATABASE_BODY = """
 CREATE TABLE IF NOT EXISTS predimmo.data(
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS predimmo.data(
 """
 
 cursor.execute(DATABASE_BODY)
-cursor.execute("ALTER TABLE predimmo.data ADD UNIQUE `unique_index`(date_mutation, code_postal, valeur_fonciere, code_type_local, surface_reelle_bati, nombre_pieces_principales, surface_terrain, longitude, latitude)")
+cursor.execute("ALTER TABLE data ADD UNIQUE `unique_index`(date_mutation, code_postal, valeur_fonciere, code_type_local, surface_reelle_bati, nombre_pieces_principales, surface_terrain, longitude, latitude)")
 
 DATABASE_BODY = """
 CREATE TABLE IF NOT EXISTS predimmo.data_django(
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS predimmo.data_django(
 """
 
 cursor.execute(DATABASE_BODY)
-cursor.execute("ALTER TABLE predimmo.data_django ADD UNIQUE `unique_index`(date_mutation, code_postal, valeur_fonciere, code_type_local, surface_reelle_bati, nombre_pieces_principales, surface_terrain, longitude, latitude)")
+cursor.execute("ALTER TABLE data_django ADD UNIQUE `unique_index`(date_mutation, code_postal, valeur_fonciere, code_type_local, surface_reelle_bati, nombre_pieces_principales, surface_terrain, longitude, latitude)")
 
 
 DATABASE_BODY = """
