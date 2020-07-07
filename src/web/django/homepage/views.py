@@ -271,6 +271,7 @@ def annonce(request):
                 with conn.cursor() as cursor:
                     # Create a new record
                     date_mutation = date.today().strftime("%y-%m-%d")
+                    message = form.data['message'].replace('\n', ' ').replace('from', '').replace('select', '').replace('drop', '').replace('database', '').replace(';', ':')
                     sql = "INSERT INTO data_django (`date_mutation`, `code_postal`, `valeur_fonciere`, `code_type_local`, `surface_reelle_bati`, `nombre_pieces_principales`,`surface_terrain`,`longitude`,`latitude`,`message`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
                     cursor.execute(sql, (
                         date_mutation,
@@ -282,7 +283,7 @@ def annonce(request):
                         form.data['surface_terrain'],
                         longitude,
                         latitude,
-                        form.data['message']))
+                        message))
                     conn.commit()
                     print("Inserted")
             finally:
