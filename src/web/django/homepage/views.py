@@ -11,16 +11,25 @@ from datetime import date
 from random import uniform
 
 
-def template_color(stroke_color, fille_color):
+def template_color(stroke_color, fill_color=None):
     """Creates a Javascript ol.style.Style statement that will describe a Layer in OpenLayers
 
     Args:
         stroke_color (String): HTML color code
-        fille_color (String): HTML color code
+        fill_color (String): HTML color code
 
     Returns:
         String: JS statement that holds a new ol.style.Style 
     """
+    if fill_color == None:
+        return """new ol.style.Style({{
+            stroke: new ol.style.Stroke({{
+                color: '{}',
+                width: 5
+            }})
+        }})""".format(stroke_color, fill_color)
+
+
     return """new ol.style.Style({{
             stroke: new ol.style.Stroke({{
                 color: '{}',
@@ -29,10 +38,12 @@ def template_color(stroke_color, fille_color):
             fill: new ol.style.Fill({{
                 color: 'rgba({}, 0.1)'
             }})
-        }})""".format(stroke_color, fille_color)
+        }})""".format(stroke_color, fill_color)
 
-def make_map():
+def make_map(departement=None):
     """Generate a JS statement with the Layer and Style for the map
+    Args:
+        departement (String): City code to make a specific focus with openlayers after a search
 
     Returns:
         coords (List[String]): List of coords from quartier_paris.geojson
@@ -41,10 +52,12 @@ def make_map():
     module_dir = os.path.dirname(__file__)
     file_path = os.path.join(module_dir, 'data', 'quartier_paris.geojson')
     coords = []
+    styles = []
+
     with open(file_path, mode='r') as fp:
         for line in fp:
             coords.append(line)
-    styles = []
+    
     for i in range(80):
         # change me according to results
         if i % 2 == 0:
@@ -54,6 +67,18 @@ def make_map():
             strike_color = "green"
             rgba = "{}, {}, 0".format(0, 255)
         styles.append(template_color(strike_color, rgba))
+
+    if departement != None:
+        file_path = os.path.join(module_dir, 'data', 'arrond.geojson')
+        coords_dep = []
+        with open(file_path, mode='r') as fp:
+            for line in fp:
+                coords_dep.append(line)
+        index = int(departement) - 75000
+        print(index)
+        coords_dep = coords_dep[index - 1]
+        coords.append(coords_dep)
+        styles.append(template_color("black"))
 
     return coords, styles
 
@@ -75,7 +100,10 @@ def get_coord_from_address(code_postal, adresse=None):
     print(url)
     r = requests.get(url, headers=headers, data="")
     js = json.loads(r.text)
-    x = js['features'][0]['geometry']['coordinates']
+    if code_postal == 75001:
+        x = js['features'][1]['geometry']['coordinates']
+    else:
+        	x = js['features'][0]['geometry']['coordinates']
     longitude = x[0]
     latitude = x[1]
     pos = []
@@ -165,6 +193,7 @@ def index(request):
             finally:
                 conn.close()
             departement = formSearch.cleaned_data['departement']
+            print(departement)
             pos_map = get_coord_from_address(departement)
             zoom = 14
             points = []
@@ -177,6 +206,7 @@ def index(request):
                 y = y + uniform(0.001, 0.0001)
                 points.append([x, y])
             formPrediction = default_predictionForm()
+            coords, styles = make_map(departement)
         elif formPrediction.is_valid():
             print("prediction ok")
             formSearch = default_searchForm()
@@ -188,8 +218,8 @@ def index(request):
         formPrediction = default_predictionForm()
         percentages = get_preditions()
         points = []
+        coords, styles = make_map()
 
-    coords, styles = make_map()
     percentages = [10, -5, 0] # ICI FAIRE LA REQUETE DES % SELON LA REGION
     forms = [formSearch, formPrediction]
 
