@@ -49,7 +49,7 @@ git stash
 git pull
 echo -e "{}\n{}\n{}\n{}\n{}\n{}" > aws_keys
 pip install -r requirements.txt --no-cache-dir
-python main.py 2>&1 | logger &
+python main.py > log.log
 chmod -R 777 ./data/
 #python3 stop_instance.py
     """.format(tag, tag, tag, tag, ACCESS_KEY, SECRET_KEY, "predimodbinstance.cbiog1ld7y5x.eu-west-1.rds.amazonaws.com",
