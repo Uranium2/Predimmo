@@ -24,7 +24,7 @@ class SearchForm(forms.Form):
     """
     CHOICES = [('1', 'Maison'), ('2', 'Appartement')]
     departement = forms.IntegerField(label='Département', min_value=75001, max_value=75020)
-    type_local = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES)
+    type_local = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES, required=True)
     superficie = RangeSliderField(label="Superficie(m²):", minimum=5, maximum=1000)
     nb_pieces = RangeSliderField(label="Nombre de pieces:", minimum=1, maximum=10)
 

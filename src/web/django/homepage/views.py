@@ -74,8 +74,8 @@ def make_map(departement=None):
             strike_color = "green"
             rgba = "0, 255, 0"
         else:
-            strike_color = "wheat"
-            rgba = "233 ,201 ,177"
+            strike_color = "gray"
+            rgba = "255, 255, 255"
         styles.append(template_color(strike_color, rgba))
 
     if departement != None:
@@ -202,6 +202,7 @@ def index(request):
         formPrediction = PredictionForm(request.POST)
 
         if formSearch.is_valid():
+            print("VALID")
             try:
                 conn = get_conn()
                 sql = create_query_search(formSearch)
@@ -224,6 +225,8 @@ def index(request):
             formPrediction = default_predictionForm()
             coords, styles = make_map(departement)
             header = departement
+        else:
+            return redirect('/index/')
 
     else:
         # Valeurs par défaut
@@ -236,12 +239,13 @@ def index(request):
         coords, styles = make_map()
 
     forms = [formSearch]
-    pred = format_predictions(percentages)
+    if 'percentages' in locals():
+        pred = format_predictions(percentages)
 
-    percentages_1 = percentages[:2]
-    pred_1 = pred[:2]
-    pred_2 = pred[-2:]
-    colors_pred, img_dir = get_colors_pred(percentages_1)
+        percentages_1 = percentages[:2]
+        pred_1 = pred[:2]
+        pred_2 = pred[-2:]
+        colors_pred, img_dir = get_colors_pred(percentages_1)
 
     return render(request, 'index.html', {'forms': forms, 'coords': coords, 'styles': styles, \
             'annonces': build_annonce_result(annonces), \
