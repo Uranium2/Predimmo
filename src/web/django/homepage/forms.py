@@ -10,9 +10,12 @@ def default_searchForm():
     Returns:
         SearchForm: SearchForm with initial values
     """
-    formSearch = SearchForm()
+    formSearch = SearchForm(initial={'type_local': '2'})
     formSearch.fields['departement'].initial = 75001
-    formSearch.fields['price'].initial = 50000
+    formSearch.fields['price'].initial = 1290000
+    formSearch.fields['superficie'].initial = 100
+    formSearch.fields['nb_pieces'].initial = 3
+    
     return formSearch
 
 

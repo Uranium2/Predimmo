@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS predimmo.data_django(
 """
 
 cursor.execute(DATABASE_BODY)
-cursor.execute("ALTER TABLE data_django ADD UNIQUE `unique_index`(date_mutation, code_postal, valeur_fonciere, code_type_local, surface_reelle_bati, nombre_pieces_principales, surface_terrain, longitude, latitude)")
+cursor.execute("ALTER TABLE data_django ADD UNIQUE `unique_index`(code_postal, valeur_fonciere, code_type_local, surface_reelle_bati, nombre_pieces_principales, surface_terrain, longitude, latitude)")
 
 
 DATABASE_BODY = """
