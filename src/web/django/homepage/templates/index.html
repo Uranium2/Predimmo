@@ -27,14 +27,14 @@
 
   <style>
   {% for color in colors %}
-    .color-box{{ forloop.counter}}{
+    .color-box{{ forloop.counter }}{
       background-color: {{ color }}; 
     }
   {% endfor %}
 
-  {% for key, val in colors_pred.items   %}
-    .pred{{ key  }} {
-      background-color: {{ val.0|safe }}; 
+  {% for key in colors_pred   %}
+    .pred{{ forloop.counter  }} {
+      background-color: {{ key|safe }}; 
     }
   {% endfor %}
   </style>
@@ -42,11 +42,36 @@
   <a class="btn btn-primary" href="/index/annonce">Poster une annonce</a>
 
   <div id="pourcentage" class="pourcentage">
-    <p>Paris A CHANGER</p>
+    <p>{{ header }}</p>
     <table>
-      {% for key, val in colors_pred.items   %}
-      <td class="pred" id="pred{{ key }}"> {{ key }}% 
-        <img id="image{{ key }}" src="/static/nothing.png" style="width:30%;height:5%;"/>
+      <tr>
+        <th>Prédiction</th>
+        <th></th>
+        <th>Prix moyen</th>
+        <th></th>
+    </tr>
+      <tr>
+          <th>1 ans</th>
+          <th>3 ans</th>
+          <th>Appartement</th>
+          <th>Maison</th>
+      </tr>
+      {% for key in pred   %}
+      <td class="pred" width="25%" id="pred{{ key }} "> 
+        <div id="container" style="white-space:nowrap">
+          <div style="display:inline; white-space:nowrap;">
+              {{ key }} 
+          </div>
+          <div id="image" style="display:inline;">
+            <img id="image{{ key  }}{{ forloop.counter  }}" src="/static/nothing.png" style="width:20px;height:30px;"/>
+          </div>
+      </div>
+        
+      </td>
+      {% endfor %}
+
+      {% for key in price   %}
+      <td class="price" width="25%" id="price{{ key }}"> {{ key }}
       </td>
       {% endfor %}
     </table>
@@ -178,24 +203,27 @@
 </body>
 
 <script>
-  {% for key, val in colors_pred.items   %}
-    changeImage({{ key }})
+  {% for key in pred   %}
+    changeImage("{{ key  }}{{ forloop.counter  }}")
   {% endfor %}
 
   function changeImage(id) {
     var name = "image" + id;
-    console.log(id);
-      var element = document.getElementById(name); 
-      if(id <= 0)
-        v = "/static/up.png";
-      else
-      {
-        v = "/static/down.png";
-        element.style = "width:40%;height:7%"
-      }
-      console.log(v)
+    
+    var element = document.getElementById(name); 
+    var my_pred = Number(id.replace("%", ""))
+    console.log(my_pred);
+    if(my_pred >= 5){
+      console.log("up");
+      v = "/static/up.png";
       element.src = v;	
     }
+    if(my_pred <= -5){
+      console.log("down");
+      v = "/static/down.png";
+      element.src = v;	
+    }
+  }
 
 </script>
 </html>

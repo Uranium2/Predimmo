@@ -13,6 +13,22 @@ def get_conn():
         password='N8XR3u#m9[5Mk6UK',
         port=3306)
 
+def make_request(conn, sql):
+    """Execute a SQL request and commit, returning the raw result
+
+    Args:
+        conn (pymysql.connect): Connection to the RDS database
+        sql (String): Query
+
+    Returns:
+        String: result in string
+    """
+    with conn.cursor() as cursor:
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        conn.commit()
+    return result
+
 def create_query_search(formSearch):
     """Create a query search for the SearchForm after the user click on the 'submit' button for a search
 

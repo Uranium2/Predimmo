@@ -4,11 +4,13 @@ from .forms import AnnonceForm
 from .forms import SearchForm, PredictionForm, default_predictionForm, default_searchForm
 import requests
 import json
-from mysqlcon import get_conn, create_query_search
+from mysqlcon import get_conn, create_query_search, make_request
 import os
 from django.shortcuts import redirect
 from datetime import date
 from random import uniform
+import collections
+import decimal
 
 
 def template_color(stroke_color, fill_color=None):
@@ -135,15 +137,21 @@ def get_colors_pred(list_pred):
     Returns:
         List(String, String): List of color HTML and instruction for the displayed arrow Up or Down for the HTML
     """
-    list_pred_color = {}
+    l = []
+    img_dir = []
+    i = 0
     for pred in list_pred:
         if pred < 5:
-            list_pred_color[pred] = ['"#ff8000"', "down"]
+            l.append("#ff8000")
+            img_dir.append("down" + str(i))
         elif pred < 0:
-            list_pred_color[pred] = ['"#eeff00"', "down"]
+            l.append("#eeff00")
+            img_dir.append("stay" + str(i))
         elif pred > 5:
-            list_pred_color[pred] = ['"#ee5eff"', "up"]
-    return list_pred_color
+            l.append("#ee5eff")   
+            img_dir.append("up"  + str(i))
+        i = i + 1
+    return l, img_dir
 
 def get_preditions(departement=None):
     """Get the predictions on the RDS of each city code or of Paris
@@ -154,15 +162,24 @@ def get_preditions(departement=None):
     Returns:
         String: List of predictions
     """
-    list_predictions = [] # [10, -5, 2]
+    conn = get_conn()
+    
     if departement == None:
         #trouver la prediction de paris en total
-        print(list_predictions)
+        sql = "SELECT ROUND(AVG(prediction_1), 2), ROUND(AVG(prediction_3), 2), ROUND(AVG(prix_m2_appart), 2), ROUND(AVG(prix_m2_maison), 2) FROM prediction"
     else:
         #trouver la prediction en fonction du departement
-        print(list_predictions)
-
-    return list_predictions 
+        sql = "SELECT * FROM prediction WHERE code_postal = {}".format(departement)
+    
+    result = make_request(conn, sql)
+    conn.close()
+    print(result)
+    result = list(result[0])
+    if departement != None:
+        result = result[1:]
+        print(result)
+        result = ["Ø" if x == -1 else x for x in result]
+    return result
 
 def index(request):
     """View for the index Page
@@ -183,17 +200,12 @@ def index(request):
         if formSearch.is_valid():
             try:
                 conn = get_conn()
-                with conn.cursor() as cursor:
-                    sql = create_query_search(formSearch)
-                    print(sql)
-                    cursor.execute(sql)
-                    result = cursor.fetchall()
-                    conn.commit()
-                    annonces = list(result)
+                sql = create_query_search(formSearch)
+                result = make_request(conn, sql)
+                annonces = list(result)
             finally:
                 conn.close()
             departement = formSearch.cleaned_data['departement']
-            print(departement)
             pos_map = get_coord_from_address(departement)
             zoom = 14
             points = []
@@ -207,21 +219,25 @@ def index(request):
                 points.append([x, y])
             formPrediction = default_predictionForm()
             coords, styles = make_map(departement)
-        elif formPrediction.is_valid():
-            print("prediction ok")
-            formSearch = default_searchForm()
+            header = departement
+
     else:
         # Valeurs par défaut
         pos_map = [2.333333, 48.866667] # CENTRE DE PARIS
         zoom = 12.5
         formSearch = default_searchForm()
-        formPrediction = default_predictionForm()
         percentages = get_preditions()
+        header = "Paris"
         points = []
         coords, styles = make_map()
 
-    percentages = [10, -5, 0] # ICI FAIRE LA REQUETE DES % SELON LA REGION
-    forms = [formSearch, formPrediction]
+    forms = [formSearch]
+    pred = format_predictions(percentages)
+
+    percentages_1 = percentages[:2]
+    pred_1 = pred[:2]
+    pred_2 = pred[-2:]
+    colors_pred, img_dir = get_colors_pred(percentages_1)
 
     return render(request, 'index.html', {'forms': forms, 'coords': coords, 'styles': styles, \
             'annonces': build_annonce_result(annonces), \
@@ -229,7 +245,21 @@ def index(request):
             'zoom': zoom, \
             'colors': get_colors(), \
             'points': points,
-            'colors_pred': get_colors_pred(percentages)})
+            'colors_pred': colors_pred,
+            'pred': pred_1,
+            'price': pred_2,
+            'header': header,
+            'img_dir': img_dir
+            })
+
+def format_predictions(pred):
+    pred = pred.copy()
+    pred[0] = "%0.2f" % pred[0] + "%"
+    pred[1] = "%0.2f" % pred[1] + "%"
+    pred[2] = str(int(pred[2])) + "€"
+    if pred[3] != "Ø":
+        pred[3] = str(int(pred[3])) + "€"
+    return pred
 
 def get_adress(x, y):
     """Get adresse from coordinates
