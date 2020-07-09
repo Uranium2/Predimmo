@@ -63,7 +63,7 @@
               {{ key }} 
           </div>
           <div id="image" style="display:inline;">
-            <img id="image{{ key  }}{{ forloop.counter  }}" src="/static/nothing.png" style="width:20px;height:30px;"/>
+            <img id="image{{ key  }}{{ forloop.counter  }}" src="/static/nothing.png" style="width:35%;height:35%;"/>
           </div>
       </div>
         
@@ -212,14 +212,11 @@
     
     var element = document.getElementById(name); 
     var my_pred = Number(id.replace("%", ""))
-    console.log(my_pred);
-    if(my_pred >= 5){
-      console.log("up");
+    if(my_pred >= 1){
       v = "/static/up.png";
       element.src = v;	
     }
-    if(my_pred <= -5){
-      console.log("down");
+    if(my_pred <= -1){
       v = "/static/down.png";
       element.src = v;	
     }

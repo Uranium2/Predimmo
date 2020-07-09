@@ -67,10 +67,10 @@ def make_map(departement=None):
     for i in result:
         i = i[1]
         # change me according to results
-        if i <= -5:
+        if i <= -1:
             strike_color = "red"
             rgba = "255, 0, 0"
-        elif i >= 5:
+        elif i >= 1:
             strike_color = "green"
             rgba = "0, 255, 0"
         else:
