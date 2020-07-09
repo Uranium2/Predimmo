@@ -52,7 +52,7 @@ def make_map(departement=None):
         styles (List[String]): List of styles with respect of coords
     """
     module_dir = os.path.dirname(__file__)
-    file_path = os.path.join(module_dir, 'data', 'quartier_paris.geojson')
+    file_path = os.path.join(module_dir, 'data', 'arrond.geojson')
     coords = []
     styles = []
 
@@ -60,14 +60,22 @@ def make_map(departement=None):
         for line in fp:
             coords.append(line)
     
-    for i in range(80):
+    sql = "SELECT code_postal, prediction_1 FROM prediction ORDER BY code_postal ASC"
+    conn = get_conn()
+    result = make_request(conn, sql)
+    conn.close()
+    for i in result:
+        i = i[1]
         # change me according to results
-        if i % 2 == 0:
+        if i <= -5:
             strike_color = "red"
-            rgba = "{}, {}, 0".format(255, 0)
-        else:
+            rgba = "255, 0, 0"
+        elif i >= 5:
             strike_color = "green"
-            rgba = "{}, {}, 0".format(0, 255)
+            rgba = "0, 255, 0"
+        else:
+            strike_color = "wheat"
+            rgba = "233 ,201 ,177"
         styles.append(template_color(strike_color, rgba))
 
     if departement != None:
@@ -77,7 +85,6 @@ def make_map(departement=None):
             for line in fp:
                 coords_dep.append(line)
         index = int(departement) - 75000
-        print(index)
         coords_dep = coords_dep[index - 1]
         coords.append(coords_dep)
         styles.append(template_color("black"))
@@ -111,7 +118,6 @@ def get_coord_from_address(code_postal, adresse=None):
     pos = []
     pos.append(longitude)
     pos.append(latitude)
-    print(pos)
     return pos
 
 def get_colors():
@@ -173,11 +179,9 @@ def get_preditions(departement=None):
     
     result = make_request(conn, sql)
     conn.close()
-    print(result)
     result = list(result[0])
     if departement != None:
         result = result[1:]
-        print(result)
         result = ["Ø" if x == -1 else x for x in result]
     return result
 
