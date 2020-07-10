@@ -64,10 +64,10 @@ cursor.execute("ALTER TABLE data_django ADD UNIQUE `unique_index`(code_postal, v
 DATABASE_BODY = """
 CREATE TABLE IF NOT EXISTS predimmo.prediction(
     code_postal int(11),
-    prediction_1 int(11) DEFAULT NULL,
-    prediction_3 int(11) DEFAULT NULL,
-    prix_m2_appart int(11) DEFAULT NULL,
-   prix_m2_maison int(11) DEFAULT NULL
+    prediction_1 DECIMAL(19,4) DEFAULT NULL,
+    prediction_3 DECIMAL(19,4) DEFAULT NULL,
+    prix_m2_appart DECIMAL(19,4) DEFAULT NULL,
+   prix_m2_maison DECIMAL(19,4) DEFAULT NULL
 )
 """
 
