@@ -1,12 +1,15 @@
 import json
 import boto3
 
+
 ACCESS_KEY = "AKIAINQGD2PLBK42S4NQ"
 SECRET_KEY = "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"
+
+
 ec2 = boto3.resource('ec2', aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY, region_name="eu-west-1")
 
-tags = ["update_cadastre", "scraping_predimmo", "model_predimmo"]
 instances = []
+tags = ["update_cadastre", "scraping_predimmo", "model_predimmo"]
 
 for tag in tags:
     user_data = """Content-Type: multipart/mixed; boundary="//"
@@ -48,10 +51,10 @@ source .venv/bin/activate
 git stash
 git pull
 echo -e "{}\n{}\n{}\n{}\n{}\n{}" > aws_keys
-pip install -r requirements.txt --no-cache-dir
+pip3 install -r requirements.txt --no-cache-dir
 python main.py > log.log
 chmod -R 777 ./data/
-#python3 stop_instance.py
+python3 stop_instance.py
     """.format(tag, tag, tag, tag, ACCESS_KEY, SECRET_KEY, "predimodbinstance.cbiog1ld7y5x.eu-west-1.rds.amazonaws.com",
     "admin", "N8XR3u#m9[5Mk6UK", "3306")
 
