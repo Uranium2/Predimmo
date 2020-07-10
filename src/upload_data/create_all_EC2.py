@@ -48,7 +48,7 @@ source .venv/bin/activate
 git stash
 git pull
 echo -e "{}\n{}\n{}\n{}\n{}\n{}" > aws_keys
-pip install -r requirements.txt --no-cache-dir
+pip3 install -r requirements.txt --no-cache-dir
 python main.py > log.log
 chmod -R 777 ./data/
 python3 stop_instance.py
