@@ -50,9 +50,12 @@ Then create 3 CloudWatch to trigger your Lambda function. You can set the trigge
 The Json must respect the tags given in the `src\upload_data\create_all_EC2.py` script. In our case we set the EC2 tag as the git project name.
 
 json example:
- {"ec2_instance":"scraping_predimmo"}
- {"ec2_instance":"update_cadastre"}
- {"ec2_instance":"modele_predimmo"}
+
+```json
+{"ec2_instance":"scraping_predimmo"}
+{"ec2_instance":"update_cadastre"}
+{"ec2_instance":"modele_predimmo"}
+```
 
 Once the web site running, you can launch `src\upload_data\open_web_site.py` to get the URL of the website.
 
