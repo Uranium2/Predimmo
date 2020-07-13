@@ -26,7 +26,7 @@ class SearchForm(forms.Form):
         forms (Form): Form
     """
     CHOICES = [('1', 'Maison'), ('2', 'Appartement')]
-    departement = forms.IntegerField(label='Département', min_value=75001, max_value=75020)
+    departement = forms.IntegerField(label='Code Postal', min_value=75001, max_value=75020)
     type_local = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES, required=True)
     superficie = RangeSliderField(label="Superficie(m²):", minimum=5, maximum=1000)
     nb_pieces = RangeSliderField(label="Nombre de pieces:", minimum=1, maximum=10)
@@ -47,7 +47,7 @@ class SearchForm(forms.Form):
             'nb_pieces',
             'price',
 
-            Submit('submit', 'Submit', css_class='btn-success1')
+            Submit('submit', 'Rechercher', css_class='btn-success1')
         )
 
 
@@ -84,7 +84,7 @@ class AnnonceForm(forms.Form):
             'message',
             'price',
 
-            Submit('submit', 'Submit', css_class='btn-success')
+            Submit('submit', 'Poster', css_class='btn-success')
 
         )
 def default_predictionForm():
