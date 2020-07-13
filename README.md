@@ -15,15 +15,25 @@ https://github.com/Uranium2/update_cadastre (Will update the database with offic
 https://github.com/Uranium2/modele_predimmo (Project that will create a Tensorflow model to train a predict values of real estate in the future)
 
 Global workflow:
+
 ![](img/infra.png)
+
 Model workflow:
+
 ![](img/model.png)
+
 Update data workflow:
+
 ![](img/upadate.png)
+
 Website worflow:
+
 ![](img/website.png)
+
 Scraping workflow:
+
 ![](img/scrap.png)
+
 
 ## How to run
 
