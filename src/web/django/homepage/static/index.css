@@ -11,15 +11,18 @@
       border-style: double;
       background-color: MintCream;
       position: fixed;
-      width: 30%;
+      width: 20%;
       margin-top: 5%;
+      margin-left: 1%;
+
     }
     .box1 {
       border-style: double;
       background-color: MintCream;
       position: fixed;
       width: 18%;
-      margin-top: 12%;
+      margin-top: 5%;
+      margin-left: 1%;
     }
     .box2 {
       border-style: double;
@@ -32,9 +35,11 @@
       border-style: double;
       background-color: MintCream;
       position: fixed;
-      margin-top: 1%;
+      margin-top: -7%;
+      margin-left: 81%;
       width: 18%;
       height: 18%;
+      overflow-wrap: break-word;
     }
     .annonces {
       position: fixed;
@@ -42,8 +47,8 @@
       width: 18%;
       border-style: double;
       background-color: MintCream;
-      margin-left: 80%;
-      margin-top: 25%;
+      margin-left: 81%;
+      margin-top: 5%;
       overflow: auto;
     }
     .annonce {
@@ -67,3 +72,11 @@
     width: 30%;
     margin-top: -5px;
     }
+
+    a{
+    margin-top: 11%;
+    margin-left: -14%;
+    position: fixed;
+    }
+
+
