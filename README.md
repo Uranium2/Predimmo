@@ -60,6 +60,9 @@ Please note that AWS will change your DNS and IP at each reboot of EC2 Instance.
 
 ## Authors
 
-TAVERNIER‌ ‌Antoine‌ (https://github.com/Uranium2)
-BERGERON‌ ‌Florian (https://github.com/FlorianBergeron)
-‌COUSIN‌ ‌Cécile (https://github.com/cousincecile)
+TAVERNIER Antoine (https://github.com/Uranium2)
+
+BERGERON Florian (https://github.com/FlorianBergeron)
+
+COUSIN Cécile (https://github.com/cousincecile)
+
