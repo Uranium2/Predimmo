@@ -1,6 +1,6 @@
 # Predimmo - Annual project ESGI 4IABD 
 
-This proejct is a school project for ESGI (Paris).
+This project is a school project for ESGI (Paris).
 
 The aim of this project, is to build an IA/BIG data solution. Here we made a website that will report prediction on real estate.
 
