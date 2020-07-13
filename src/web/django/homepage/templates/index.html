@@ -23,10 +23,7 @@
 
 
 
-<body>
-
-  <img src="/static/logo_predimmo.png" style="height: 10%; width: 10%; margin-left: 5%;">
-
+<body style>
   <style>
   {% for color in colors %}
     .color-box{{ forloop.counter }}{
@@ -40,10 +37,11 @@
     }
   {% endfor %}
   </style>
-  
+
+  <div id="logo" style="float:left;  margin-left: 4%;"> <img src="/static/logo_predimmo.png"></div>
   <a class="btn btn-primary" href="/index/annonce">Poster une annonce</a>
 
-  <div id="pourcentage" class="pourcentage" style=" margin-left: 81%;">
+  <div id="pourcentage" class="pourcentage">
     <p>{{ header }}</p>
     <table>
       <tr>
