@@ -28,8 +28,8 @@ class SearchForm(forms.Form):
     CHOICES = [('1', 'Maison'), ('2', 'Appartement')]
     departement = forms.IntegerField(label='Code Postal', min_value=75001, max_value=75020)
     type_local = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES, required=True)
-    superficie = RangeSliderField(label="Superficie(m²):", minimum=5, maximum=1000)
-    nb_pieces = RangeSliderField(label="Nombre de pieces:", minimum=1, maximum=10)
+    superficie = forms.IntegerField(label="Superficie(m²):", min_value=5, max_value=1000)
+    nb_pieces = forms.IntegerField(label="Nombre de pieces:", min_value=1, max_value=10)
 
     price = forms.IntegerField(label='Prix', min_value=0, max_value=3000000)
 
