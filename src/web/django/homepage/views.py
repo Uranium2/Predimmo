@@ -109,6 +109,12 @@ def get_coord_from_address(code_postal, adresse=None):
     print(url)
     r = requests.get(url, headers=headers, data="")
     js = json.loads(r.text)
+
+    if len(js['features']) < 1:
+        url = str(("http://api-adresse.data.gouv.fr/search/?q=" + str(code_postal)))
+        r = requests.get(url, headers=headers, data="")
+        js = json.loads(r.text)
+
     if code_postal == 75001:
         x = js['features'][1]['geometry']['coordinates']
     else:

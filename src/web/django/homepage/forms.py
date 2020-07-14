@@ -58,14 +58,14 @@ class AnnonceForm(forms.Form):
         forms (Form): Form
     """
     CHOICES = [('1', 'Maison'), ('2', 'Appartement')]
-    code_postal = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Code Postal'}))
-    adresse = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Adresse'}))
+    code_postal = forms.IntegerField(label='Code Postal')
+    adresse = forms.CharField(label='Adresse')
     type_local = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES)
-    surface_reelle_bati = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Surface du bien(m²)'}))
-    nombre_pieces_principales = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Nombre de pieces'}))
-    surface_terrain = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Surface du terrain (m²)'}))
+    surface_reelle_bati = forms.IntegerField(label="Superficie du bien (m²):", min_value=5, max_value=1000)
+    nombre_pieces_principales = forms.IntegerField(label='Nombre de pieces')
+    surface_terrain = forms.IntegerField(label="Superficie du terrain (m²):", min_value=5, max_value=1000)
     message = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Description'}))
-    price = forms.DecimalField(widget=forms.TextInput(attrs={'placeholder': 'Prix du bien(€)'}))
+    price = forms.DecimalField(label='Prix du bien(€)')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
